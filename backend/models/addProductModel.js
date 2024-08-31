@@ -5,7 +5,7 @@ var imageSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter product name"],
         trim: true,
-        maxLength: [100, "Product name cannot exceed 100 chracters"]
+        maxLength: [150, "Product name cannot exceed 100 chracters"]
 
     },
     price: {
@@ -31,18 +31,15 @@ var imageSchema = new mongoose.Schema({
         required: [true, "Please enter product category"],
         enum: {
             values: [
-                "Electronics",
-                "Mobile Phones",
-                "Laptops",
-                "Accessories",
-                "Headphones",
-                "Food",
-                "Books",
-                "Clothes",
-                "Beauty",
-                "Sports",
-                "Outdoor",
-                "Home"
+                "fashion",
+                "electronics",
+                "mobile Phones",
+                "appliances",
+                "grocery",
+                "toys",
+                "beauty",
+                "sports",
+                "home & Furniture"
             ]
         },
         message: "Please enter correct category"
@@ -54,7 +51,7 @@ var imageSchema = new mongoose.Schema({
     stock: {
         type: Number,
         required: [true, "Please enter product product stock"],
-        maxLength: [20, "Product name cannot exceed 100 chracters"]
+        maxLength: [30, "Product name cannot exceed 100 chracters"]
     },
     numberOfReviews: {
         type: String,

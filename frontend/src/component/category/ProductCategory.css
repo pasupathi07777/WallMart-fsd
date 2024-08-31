@@ -1,0 +1,10 @@
+.Category {
+    overflow: auto; /* or scroll, depending on your needs */
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  
+}
+
+.Category::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}

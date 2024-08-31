@@ -8,6 +8,8 @@ export const ContextProvider = createContext()
 const Context = ({ children }) => {
 
   const [loginUserDetails, setLoginUserDetails] = useState({})
+  const [allProducts, setAllProducts] = useState([])
+  const [allUsers, setAllUsers] = useState([])
   const [login, setLogin] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -21,10 +23,8 @@ const Context = ({ children }) => {
     } catch (error) {
       setIsLoading(false)
       setLogin(false)
-      console.log(error.response)
     }
   }
-
   // userlogin
   const logIn = async (state) => {
     try {
@@ -77,14 +77,39 @@ const Context = ({ children }) => {
 
   }
 
+  // get all Products 
+  const getProduct = async () => {
+    try {
+      const product = await axios.get("http://localhost:5000/api/getproduct")
+      setAllProducts(product.data.allProducts)
+
+    } catch (error) {
+      console.log(error)
+
+    }
+
+  }
+
+
+  const getAllUsers = async () => {
+    try {
+      const users = await axios.get("http://localhost:5000/api/allusers")
+      setAllUsers(users.data.users)
+      console.log(users.data.users)
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
 
 
 
 
   useEffect(() => {
-
+    getAllUsers()
+    getProduct()
     let status = JSON.parse(localStorage.getItem("wallMat"));
-
     if (status === null) {
       setIsLoading(false)
       setLogin(false)
@@ -105,9 +130,10 @@ const Context = ({ children }) => {
 
   }, [login])
   useEffect(() => {
-    console.log(loginUserDetails)
-    console.log(login)
-  }, [loginUserDetails, logIn])
+    // console.log(loginUserDetails)
+    // console.log(login)
+    // console.log(allProducts)
+  }, [loginUserDetails, logIn, allProducts])
 
 
 
@@ -126,7 +152,12 @@ const Context = ({ children }) => {
       // user auth 
       signUp, logIn, logOut, passwordReset, logOut,
       // user status
-      loginUserDetails, login, isLoading, setIsLoading, setLogin
+      loginUserDetails, login, isLoading, setIsLoading, setLogin,
+      // all product 
+      allProducts,
+      // all users
+      allUsers
+
 
 
     }}>

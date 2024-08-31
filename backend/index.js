@@ -4,7 +4,6 @@ const cron=require('cors')
 const connectDb = require("./config/db")
 const dotenv = require('dotenv').config({ path: path.join(__dirname, "config/.env") })
 const route = require('./routes/route')
-// const multer = require('multer');
 
 connectDb().then(() => {
   console.log("DataBase  Connected")

@@ -9,12 +9,12 @@ const contentStyle = {
     textAlign: 'center',
     background: '#364d79',
 };
-const App = () => (
+const ProductCarousel = () => (
     <>
         <Carousel  arrows infinite={false}>
             {caruselImages.map((e, i) => (
-                <div key={i}>
-                    <img className='w-full h-[150px] md:h-[250px]' src={e.image} alt="" srcSet="" />
+                <div key={i} className='h-full w-full flex justify-center items-center z-10'>
+                    <img className='w-full  h-[170px] sm:h-[230px] z-10 ' src={e.image} alt="" srcSet="" />
                 </div>
 
             ))}
@@ -23,4 +23,4 @@ const App = () => (
 
     </>
 );
-export default App;
+export default ProductCarousel;

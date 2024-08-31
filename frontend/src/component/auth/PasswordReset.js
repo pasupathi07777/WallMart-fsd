@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import './PasswordReset.css'
 import { ContextProvider } from '../../service/Context'
@@ -54,17 +53,17 @@ const PasswordReset = () => {
             const res = await passwordReset({ gmail, password })
             console.log(res.for)
             if (res.success === true) {
-               
+
                 navigate('/login');
                 setGmail("")
                 setPassword("")
                 setConformPassword("")
-            } else if(res.success === false) {
+            } else if (res.success === false) {
                 console.log("failed")
                 if (res.for === "gmail") {
                     setEmailError(res.message)
                 }
-                
+
             }
         }
 
@@ -107,63 +106,125 @@ const PasswordReset = () => {
 
         //     <button onClick={()=>onResetPassword()}>Reset</button>
         // </div>
-        <div className="flex flex-col justify-center items-center w-full  sm:p-x-[32px] sm:pb-[24px]">
-            <div className="reset-password-form flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg h-full sm:p-[32px]">
-                <div className="title font-bold capitalize text-[32px]">Reset Password</div>
+        // <div className="flex flex-col justify-center items-center w-full  sm:p-x-[32px] sm:pb-[24px]">
+        //     <div className="reset-password-form flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg h-full sm:p-[32px]">
+        //         <div className="title font-bold capitalize text-[32px]">Reset Password</div>
 
-                <div className="gmail flex flex-col gap-1">
+        //         <div className="gmail flex flex-col gap-1">
+        //             <div className="flex gap-2 items-center">
+        //                 <label htmlFor="gmail" className='font-semibold capitalize'>Email</label>
+        //                 <p className='text-red-500 text-[12px]'>{emailError}</p>
+        //             </div>
+        //             <input
+        //                 type="email"
+        //                 id="gmail"
+        //                 placeholder='Enter Your Gmail'
+        //                 className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+        //                 value={gmail}
+        //                 onChange={(e) => { setGmail(e.target.value); setEmailError(""); }}
+        //             />
+        //         </div>
+
+        //         <div className="password flex flex-col gap-1">
+        //             <div className="flex gap-2 items-center">
+        //                 <label htmlFor="password" className='font-semibold capitalize'>Password</label>
+        //                 <p className='text-red-500 text-[12px]'>{passwordError}</p>
+        //             </div>
+        //             <input
+        //                 type="password"
+        //                 id="password"
+        //                 placeholder='Enter Your Password'
+        //                 className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+        //                 value={password}
+        //                 onChange={(e) => { setPassword(e.target.value); setPasswordError(""); }}
+        //             />
+        //         </div>
+
+        //         <div className="confirm-password flex flex-col gap-1">
+        //             <div className="flex gap-2 items-center">
+        //                 <label htmlFor="confirm-password" className='font-semibold capitalize'>Confirm Password</label>
+        //                 <p className='text-red-500 text-[12px]'>{conformPasswordError}</p>
+        //             </div>
+        //             <input
+        //                 type="password"
+        //                 id="confirm-password"
+        //                 placeholder='Enter Your Password Again'
+        //                 className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+        //                 value={conformPassword}
+        //                 onChange={(e) => { setConformPassword(e.target.value); setConformPasswordError(""); }}
+        //             />
+        //         </div>
+
+        //         <button
+        //             className='px-4 py-2 font-medium capitalize bg-[#FA9C23] text-white rounded mt-4'
+        //             onClick={() => onResetPassword()}
+        //         >
+        //             Reset
+        //         </button>
+        //     </div>
+        // </div>
+
+
+        <div className="flex flex-col justify-center items-center w-full sm:px-[32px] sm:pb-[24px]">
+            <div className="flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg sm:p-[32px] bg-white sm:shadow-lg">
+                <div className="font-bold capitalize text-[24px]">Reset Password</div>
+
+                <div className="flex flex-col gap-1">
                     <div className="flex gap-2 items-center">
-                        <label htmlFor="gmail" className='font-semibold capitalize'>Email</label>
-                        <p className='text-red-500 text-[12px]'>{emailError}</p>
+                        <label htmlFor="gmail" className="font-semibold capitalize">Email</label>
+                        <p className="text-red-500 text-[12px]">{emailError}</p>
                     </div>
                     <input
-                        type="text"
+                        type="email"
                         id="gmail"
-                        placeholder='Enter Your Gmail'
-                        className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+                        placeholder="Enter Your Gmail"
+                        className="focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300"
                         value={gmail}
                         onChange={(e) => { setGmail(e.target.value); setEmailError(""); }}
                     />
                 </div>
 
-                <div className="password flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                     <div className="flex gap-2 items-center">
-                        <label htmlFor="password" className='font-semibold capitalize'>Password</label>
-                        <p className='text-red-500 text-[12px]'>{passwordError}</p>
+                        <label htmlFor="password" className="font-semibold capitalize">Password</label>
+                        <p className="text-red-500 text-[12px]">{passwordError}</p>
                     </div>
                     <input
-                        type="text"
+                        type="password"
                         id="password"
-                        placeholder='Enter Your Password'
-                        className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+                        placeholder="Enter Your Password"
+                        className="focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value); setPasswordError(""); }}
                     />
                 </div>
 
-                <div className="confirm-password flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                     <div className="flex gap-2 items-center">
-                        <label htmlFor="confirm-password" className='font-semibold capitalize'>Confirm Password</label>
-                        <p className='text-red-500 text-[12px]'>{conformPasswordError}</p>
+                        <label htmlFor="confirm-password" className="font-semibold capitalize">Confirm Password</label>
+                        <p className="text-red-500 text-[12px]">{conformPasswordError}</p>
                     </div>
                     <input
-                        type="text"
+                        type="password"
                         id="confirm-password"
-                        placeholder='Enter Your Password Again'
-                        className='focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300'
+                        placeholder="Enter Your Password Again"
+                        className="focus:outline-none py-2 px-2 rounded border-b-2 border-gray-300"
                         value={conformPassword}
                         onChange={(e) => { setConformPassword(e.target.value); setConformPasswordError(""); }}
                     />
                 </div>
 
                 <button
-                    className='px-4 py-2 font-medium capitalize bg-[#FA9C23] text-white rounded mt-4'
+                    className="px-4 py-2 font-medium capitalize bg-[#FA9C23] text-white rounded mt-4"
                     onClick={() => onResetPassword()}
                 >
                     Reset
                 </button>
             </div>
         </div>
+
+
+
 
     )
 }

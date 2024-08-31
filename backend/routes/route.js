@@ -2,7 +2,7 @@ const express=require('express')
 const multer = require('multer');
 const path = require('path');
 const imageController = require('../controller/AddProductController')
-const { addUser,findUser,resetPassword, loginStatus, logOut } =require( '../controller/authController')
+const { addUser,findUser,resetPassword, loginStatus, logOut,getAllUsers } =require( '../controller/authController')
 const route=express.Router()
 
 // route.post("/product",postProduct)
@@ -21,8 +21,9 @@ route.get('/login',findUser)
 route.post('/passwordreset',resetPassword)
 route.get('/loginstatus',loginStatus)
 route.post('/logout',logOut)
+
+
 // add product 
-// Set up Multer storage and file fil
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, '../uploads')); // Corrected path
@@ -33,6 +34,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 route.post('/addproduct', upload.single('image'), imageController.uploadImage);
+route.get('/getproduct', imageController.getProduct);
+
+// get alluser
+route.get('/allusers',getAllUsers)
+
+
+
 
 
 

@@ -11,7 +11,7 @@ import toy from '../img/category/toy.jpeg';
 export const category=[
 
     {
-        category:"mobile",
+        category:"Mobile Phones",
         image:mobileImage
     },
     {
@@ -19,7 +19,7 @@ export const category=[
         image:fashionImage
     },
     {
-        category:"electronics",
+        category:"Electronics",
         image:electronicsImage
     },
     {
@@ -50,3 +50,15 @@ export const category=[
         image:buaty
     }
 ]
+
+const categories = [
+    "fashion",
+    "Electronics",
+    "Mobile Phones",
+    "appliances",
+    "grocery",
+    "toys",
+    "beauty",
+    "Sports",
+    "home & Furniture"
+  ];

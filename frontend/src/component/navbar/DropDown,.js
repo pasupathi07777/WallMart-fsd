@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Button, Popover } from 'antd';
 import icons from '../../data/navIcons'
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import popUpData from '../../data/navPopUpData';
 import { ContextProvider } from '../../service/Context';
 
@@ -17,6 +17,7 @@ import { ContextProvider } from '../../service/Context';
 const UserPopUp = () => {
 
     const { loginUserDetails, logOut } = useContext(ContextProvider)
+    const navigate=useNavigate()
 
     const [arrow, setArrow] = useState('Show');
     const mergedArrow = useMemo(() => {
@@ -50,17 +51,21 @@ const UserPopUp = () => {
             <Popover placement="bottom" className='order-2  md:order-3 hidden h-full md:flex' content={content} arrow={mergedArrow}>
                 <Button>
                     {icons.userIcon}
-                    <div className="userName hidden items-start sm:flex">{loginUserDetails.userName}</div>
-                    <div className="userName flex items-start sm:hidden">You</div>
+                    <div className="userName hidden items-start md:flex">{loginUserDetails.userName}</div>
+                    <div className="userName flex items-start md:hidden">You</div>
                 </Button>
             </Popover>
-            <div className="userProfile md:hidden flex gap-1 justify-center items-start order-2 md:order-3">
-                {icons.userIcon}
-                {/* <div className="userName hidden items-start sm:flex">{loginUserDetails.userName}</div>   */}
-                <div className="userName flex items-start sm:hidden">You</div>
+           
+                <div className="userProfile md:hidden flex gap-1 justify-center items-start order-2 md:order-3" onClick={()=>navigate("/userprofile")}>
+
+                    {icons.userIcon}
+                    {/* <div className="userName hidden items-start sm  :flex">{loginUserDetails.userName}</div>   */}
+                    <div className="userName flex items-start md:hidden">You</div>
 
 
-            </div>
+
+                </div>
+          
         </>
 
 

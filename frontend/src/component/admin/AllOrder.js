@@ -1,8 +1,11 @@
-import React from 'react'
-
+import React, { useContext } from 'react'
+import { ContextProvider } from '../../service/Context'
 const AllOrder = () => {
+  const {loginUserDetails } = useContext(ContextProvider)
   return (
-    <div>AllOrder</div>
+    <div>
+
+    </div>
   )
 }
 

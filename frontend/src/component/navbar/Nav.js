@@ -27,7 +27,7 @@ const Nav = () => {
     navigate('/login')
   }
   return (
-    <nav className='flex items-center justify-between w-full  px-[16px] md:px-[32px] py-[12px] pb-[12px]  flex-wrap md:flex-nowrap gap-2 bg-[#232F3E] text-white overflow-hidden '>
+    <nav className='flex items-center justify-between w-full  px-[16px] md:px-[32px] py-[12px] pb-[12px]  flex-wrap md:flex-nowrap gap-2 bg-[#232F3E] text-white overflow-hidden z-50 '>
       <div className="handBurgerIcon md:hidden">
         {icons.handBurgerIcon}
       </div>
@@ -44,7 +44,7 @@ const Nav = () => {
 
 
       {isLoading ?
-        <p className='order-2 md:order-3'>Loadingff ...</p>
+        <p className='order-2 md:order-3'>Loading ...</p>
 
         :
         login ?
@@ -61,10 +61,19 @@ const Nav = () => {
 
 
 
-      <div className="cart flex gap-1 order-3">
+      {/* <div className="cart flex gap-1 order-3">
         {icons.cart}
         <div className="userName  items-start hidden sm:flex">cart</div>
 
+      </div> */}
+      <div className="flex items-center gap-2 order-3">
+        <div className='relative'>
+          {icons.cart}
+          <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>0</span> {/* Example for cart item count */}
+        </div>
+        <div className="hidden sm:flex items-center text-sm">
+          Cart
+        </div>
       </div>
 
     </nav>

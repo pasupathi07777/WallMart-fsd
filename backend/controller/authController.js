@@ -116,9 +116,27 @@ const logOut = async (req,res) => {
     }
 
 }
+// get all users
+
+const getAllUsers=async (req,res)=>{
+
+    try {
+        
+       
+        const users=await userModel.find()
+        res.status(200).json({success:true,users})
+
+
+    } catch (e) {
+        res.status(400).json({success:false,message:e.message})
+        
+
+    }
+
+}
 
 
 
 
 
-module.exports = { addUser, findUser, resetPassword,loginStatus,logOut }
+module.exports = { addUser, findUser, resetPassword,loginStatus,logOut,getAllUsers }
