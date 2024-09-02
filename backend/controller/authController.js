@@ -43,9 +43,10 @@ const findUser = async (req, res) => {
         const user = await userModel.findOne({ gmail: gmail });
         if (user) {
             if (user.password === password) {
-                res.status(200).json({success:true,message:user});
+                // await user.populate('cart.productId').execPopulate();
                 user.login = true
                 await user.save()
+                res.status(200).json({success:true,message:user});
             } else {
                 res.status(400).json({success:false, for: "password", message: "In correct password" });
 

@@ -9,7 +9,7 @@ import UserPopUp from './DropDown,';
 const Nav = () => {
 
   const navigate = useNavigate()
-  const { loginUserDetails, login, isLoading, setIsLoading } = useContext(ContextProvider)
+  const { loginUserDetails, login, isLoading, setIsLoading,cartCount,cart } = useContext(ContextProvider)
   const [userState, setUserState] = useState(false)
   const [lodding, setLoading] = useState(true)
 
@@ -66,10 +66,13 @@ const Nav = () => {
         <div className="userName  items-start hidden sm:flex">cart</div>
 
       </div> */}
-      <div className="flex items-center gap-2 order-3">
+      
+      <div className="flex items-center gap-2 order-3" onClick={()=>navigate('/cart')}>
+        
+       
         <div className='relative'>
           {icons.cart}
-          <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>0</span> {/* Example for cart item count */}
+          <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>{cart.length}</span> {/* Example for cart item count */}
         </div>
         <div className="hidden sm:flex items-center text-sm">
           Cart

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const productModel=require('./addProductModel')
 
 // user schema 
 
@@ -25,7 +26,19 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
 
-    }
+    },
+    cart: [{
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "product",  // Referencing the Product model
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1,
+        }
+    }]
 
 
 
@@ -58,9 +71,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         default: 0
     },
-   
-    imagesPreview:String,
-   
+
+    imagesPreview: String,
+
 
     category: {
         type: String,
@@ -119,18 +132,7 @@ const productSchema = new mongoose.Schema({
 })
 
 
-const productModel = mongoose.model("producttt", productSchema)
+// const productModel = mongoose.model("producttt", productSchema)
 
 
 module.exports = { productModel, userModel }
- // images: [],
-
-
- //  {
-
-
-    // image: {
-    //     type: String,
-    //     required: true
-    // }
-// }

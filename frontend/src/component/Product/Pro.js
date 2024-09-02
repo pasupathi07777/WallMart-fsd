@@ -57,7 +57,7 @@ import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 
 const Pro = () => {
-    const { allProducts } = useContext(ContextProvider);
+    const { allProducts,addCart, cart,quantities, setQuantities,updateQuantity } = useContext(ContextProvider);
     const { proId } = useParams();
 
     // Find the product that matches the proId
@@ -86,10 +86,31 @@ const Pro = () => {
                             <small className="text-gray-500 capitalize">No Cost EMI from ₹2000/month</small>
                         )}
                         <p className="text-gray-700 text-sm mt-2">{product.description}</p>
+
+                        <div className="quantity flex gap-2 items-center">
+                                <div
+                                    className="add-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
+                                    onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) < 10 ? (quantities[product._id] || 1) + 1 : (quantities[product._id] || 1))}
+                                >
+                                    +
+                                </div>
+                                <input
+                                    type="number"
+                                    value={quantities[product._id] || 1}
+                                    readOnly
+                                    className="w-12 text-center border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-400"
+                                />
+                                <div
+                                    className="sub-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
+                                    onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) > 1 ? (quantities[product._id] || 1) - 1 : 1)}
+                                >
+                                    -
+                                </div>
+                            </div>
                         
                         {/* Buttons */}
                         <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                            <button className="flex items-center justify-center py-2 px-4 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                            <button className="flex items-center justify-center py-2 px-4 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors" onClick={() => addCart(product._id, quantities[product._id] || 1)}>
                                 {productIcons.cart} Add to Cart
                             </button>
                             <button className="flex items-center justify-center py-2 px-4 bg-orange-600 text-white rounded-lg shadow-md hover:bg-orange-700 transition-colors">

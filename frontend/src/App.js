@@ -13,6 +13,7 @@ import AllProduct from './component/admin/AllProduct'
 import AllOrder from './component/admin/AllOrder'
 import AllUser from './component/admin/AllUser'
 import AddProduct from './component/admin/AddProduct'
+import Cart from './component/cart/Cart'
 
 
 const App = () => {
@@ -39,6 +40,8 @@ const App = () => {
           <Route path='/admin/allusers' element={<AllUser />} />
           <Route path='/admin/addproduct' element={<AddProduct />} />
 
+          {/* cart */}
+          <Route path='/cart' element={<Cart />} />
 
 
         </Routes>

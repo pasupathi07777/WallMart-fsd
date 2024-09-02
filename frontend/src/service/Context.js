@@ -7,17 +7,25 @@ export const ContextProvider = createContext()
 
 const Context = ({ children }) => {
 
+  // port
+  const PORT = "http://localhost:5000/api"
+
   const [loginUserDetails, setLoginUserDetails] = useState({})
   const [allProducts, setAllProducts] = useState([])
   const [allUsers, setAllUsers] = useState([])
   const [login, setLogin] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  // cart
+  const [cart, setCart] = useState([])
+  const [cartMessage, setCartMessage] = useState("")
+
 
 
   const userStatus = async (gmail) => {
     try {
       const responce = await axios.get("http://localhost:5000/api/loginstatus", { params: { gmail: gmail } })
       setLoginUserDetails(responce.data)
+      setCart(responce.data.cart)
       setLogin(responce.data.login)
       setIsLoading(false)
     } catch (error) {
@@ -90,7 +98,6 @@ const Context = ({ children }) => {
 
   }
 
-
   const getAllUsers = async () => {
     try {
       const users = await axios.get("http://localhost:5000/api/allusers")
@@ -102,13 +109,63 @@ const Context = ({ children }) => {
     }
   }
 
+  // cart
+
+  // State to store quantity for each product
+  const [quantities, setQuantities] = useState({});
+
+  // Function to update the quantity for a specific product
+  const updateQuantity = (productId, newQuantity) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: newQuantity
+    }));
+    console.log(quantities)
+  };
+
+  const addCart = async (productId, quantity) => {
+
+    const existingProduct = cart.find(pro => pro.productId == productId);
+    // if (existingProduct) {
+    //   return setCartMessage("Aleredy Added ...")
+
+    // }
+
+    console.log(productId, quantity, loginUserDetails._id)
+    try {
+      const cart = await axios.put(`${PORT}/addcart/${loginUserDetails._id}`, { productId, quantity })
+      setCart(cart.data.user.cart)
+      console.log(cart.data.user.cart)
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+  const removePRoductInCart = async (productId) => {
+    console.log(productId)
+    try {
+      const cart = await axios.put(`${PORT}/removecartitem/${loginUserDetails._id}`, { productId })
+      setCart(cart.data.user.cart)
+      console.log(cart.data.user.cart)
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
 
 
 
 
   useEffect(() => {
+    // for admin 
     getAllUsers()
     getProduct()
+
+    // user auth 
     let status = JSON.parse(localStorage.getItem("wallMat"));
     if (status === null) {
       setIsLoading(false)
@@ -133,7 +190,11 @@ const Context = ({ children }) => {
     // console.log(loginUserDetails)
     // console.log(login)
     // console.log(allProducts)
-  }, [loginUserDetails, logIn, allProducts])
+    // console.log(cart)
+    // console.log(cartCount)
+    console.log(cartMessage)
+
+  }, [loginUserDetails, logIn, allProducts, quantities, cartMessage])
 
 
 
@@ -156,7 +217,9 @@ const Context = ({ children }) => {
       // all product 
       allProducts,
       // all users
-      allUsers
+      allUsers,
+      // cart
+      addCart, cart, quantities, setQuantities, updateQuantity,removePRoductInCart
 
 
 
