@@ -1,62 +1,83 @@
 
+
+
+
 // import React, { useContext } from 'react';
 // import { ContextProvider } from '../../service/Context';
 // import productIcons from '../../data/productIcon';
 // import { useNavigate } from 'react-router-dom';
-
+// import { useEffect, useState } from 'react';
+// import icons from '../../data/navIcons'
 
 // const Products = () => {
-//     const navigate = useNavigate()
+//     const navigate = useNavigate();
 //     const { allProducts } = useContext(ContextProvider);
 //     const categories = [
-//         // "fashion",
-//         // "Mobile Phones",
-//         // "Electronics",
-//         // "Laptops",
-//         // "Accessories",
-//         // "Headphones",
-//         // "Food",
-//         // "Books",
-//         // "Clothes",
-//         // "Beauty",
-//         // "Sports",
-//         // "Outdoor",
-//         // "Home"
 //         "fashion",
-//         "electronics",
-//         "mobile Phones",
+//         "mobile phones",
+//         "home & furniture",
 //         "appliances",
+//         "electronics",
 //         "grocery",
 //         "toys",
 //         "beauty",
 //         "sports",
-//         "home & Furniture"
 //     ];
 
+//     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
+
+//     useEffect(() => {
+//         const handleResize = () => {
+//             setIsSmallScreen(window.innerWidth < 640);
+//         };
+
+//         window.addEventListener('resize', handleResize);
+//         return () => window.removeEventListener('resize', handleResize);
+//     }, []);
+
 //     return (
-//         <div className='grid grid-cols-1 sm:flex gap-[12px] sm:flex-wrap'>
+//         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
 //             {categories.map((category, index) => {
-//                 const filteredProducts = allProducts.filter(product => product.category.toLocaleLowerCase() === category.toLocaleLowerCase());
-
+//                 const filteredProducts = allProducts.filter(product => product.category.toLowerCase() === category.toLowerCase());
+//                 filteredProducts.length?
 //                 return (
-//                     <div key={index} className="w-full flex flex-col gap-1 sm:w-[49%] bg-white rounded p-2"
-//                         onClick={() => navigate(`/product/${category}`)} >
-//                         <p className='capitalize font-bold md:hidden flex gap-1 items-center'>{category}{productIcons.rightArrow}</p>
-//                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:flex-grow ">
-//                             {filteredProducts.slice(0, 6).map((product, productIndex) => (
-//                                 productIndex !== 5 ?
-//                                     <img
-//                                         key={productIndex}
-//                                         className={`w-full h-[270px] rounded ${productIndex === 4 ? "hidden md:block" : "block"}   `}
-//                                         src={`data:${product.image.contentType};base64,${product.image.data}`}
-//                                         alt={product.name}
-//                                         srcSet=""
 
-//                                     /> :
-//                                     <p className='font-bold capitalize items-center hidden md:flex  m-auto  gap-1'>shop more{productIcons.rightArrow}</p>
-//                             ))}
-//                         </div>
-//                     </div>
+
+                 
+//                    <div
+//                    key={index}
+//                    className=" rounded-lg sm:shadow-md overflow-hidden cursor-pointer transition-transform transform hover:scale-105 bg-blue-500"
+//                    onClick={() => navigate(`/product/${category.toLowerCase()}`)}
+//                >
+//                    <div className='p-4'>
+//                        <p className='text-xl font-semibold sm:hidden mb-2 flex items-center gap-2'>
+//                            {category}
+//                            {productIcons.rightArrow}
+//                        </p>
+//                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+//                            {filteredProducts.slice(0, isSmallScreen ? 2 : 3).map((product, productIndex) => (
+//                                <img
+//                                    key={productIndex}
+//                                    className="w-full h-40 rounded-lg block"
+//                                    src={`data:${product.image.contentType};base64,${product.image.data}`}
+//                                    alt={product.name}
+//                                />
+//                            ))}
+//                            {!isSmallScreen && filteredProducts.length >= 4 && (
+//                                <div className="items-center justify-center text-blue-600 font-semibold hidden sm:flex">
+//                                    <p>Shop more</p>
+//                                    {productIcons.rightArrow}
+//                                </div>
+//                            )}
+//                        </div>
+//                    </div>
+//                </div>)
+//                :
+//               return(
+//                 <p>{icons.loadingIcon}</p>
+//               )
+
+
 //                 );
 //             })}
 //         </div>
@@ -65,69 +86,179 @@
 
 // export default Products;
 
+// import React, { useContext, useEffect, useState } from 'react';
+// import { ContextProvider } from '../../service/Context';
+// import productIcons from '../../data/productIcon';
+// import { useNavigate } from 'react-router-dom';
+// import icons from '../../data/navIcons';
 
-import React, { useContext } from 'react';
+// const Products = () => {
+//     const navigate = useNavigate();
+//     const { allProducts } = useContext(ContextProvider);
+
+//     const categories = [
+//         "fashion",
+//         "mobile phones",
+//         "home & furniture",
+//         "appliances",
+//         "electronics",
+//         "grocery",
+//         "toys",
+//         "beauty",
+//         "sports",
+//     ];
+
+//     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
+
+//     useEffect(() => {
+//         const handleResize = () => {
+//             setIsSmallScreen(window.innerWidth < 640);
+//         };
+
+//         window.addEventListener('resize', handleResize);
+//         return () => window.removeEventListener('resize', handleResize);
+//     }, []);
+
+//     return (
+//         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
+//             {categories.map((category, index) => {
+//                 const filteredProducts = allProducts.filter(
+//                     product => product.category.toLowerCase() === category.toLowerCase()
+//                 );
+
+//                 if (filteredProducts.length) {
+//                     return (
+//                         <div
+//                             key={index}
+//                             className="rounded-lg sm:shadow-md overflow-hidden cursor-pointer transition-transform transform hover:scale-105 bg-blue-500"
+//                             onClick={() => navigate(`/product/${category.toLowerCase()}`)}
+//                         >
+//                             <div className='p-4'>
+//                                 <p className='text-xl font-semibold sm:hidden mb-2 flex items-center gap-2'>
+//                                     {category}
+//                                     {productIcons.rightArrow}
+//                                 </p>
+//                                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+//                                     {filteredProducts.slice(0, isSmallScreen ? 2 : 3).map((product, productIndex) => (
+//                                         <img
+//                                             key={productIndex}
+//                                             className="w-full h-40 rounded-lg block"
+//                                             src={`data:${product.image.contentType};base64,${product.image.data}`}
+//                                             alt={product.name}
+//                                         />
+//                                     ))}
+//                                     {!isSmallScreen && filteredProducts.length >= 4 && (
+//                                         <div className="items-center justify-center text-blue-600 font-semibold hidden sm:flex">
+//                                             <p>Shop more</p>
+//                                             {productIcons.rightArrow}
+//                                         </div>
+//                                     )}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     );
+//                 } else {
+//                     return (
+//                         <div key={index} className="flex justify-center items-center">
+//                             {icons.loadingIcon}
+//                         </div>
+//                     );
+//                 }
+//             })}
+//         </div>
+//     );
+// };
+
+// export default Products;
+
+
+import React, { useContext, useEffect, useState } from 'react';
 import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 import { useNavigate } from 'react-router-dom';
+import icons from '../../data/navIcons';
 
 const Products = () => {
     const navigate = useNavigate();
-    const { allProducts } = useContext(ContextProvider);
+    const { allProducts,  setVisibleSearch } = useContext(ContextProvider);
+
     const categories = [
         "fashion",
-        "electronics",
         "mobile phones",
+        "home & furniture",
         "appliances",
+        "electronics",
         "grocery",
         "toys",
         "beauty",
         "sports",
-        "home & furniture"
     ];
 
-    return (
-        <div className=' grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 '>
-            {categories.map((category, index) => {
-                const filteredProducts = allProducts.filter(product => product.category.toLowerCase() === category.toLowerCase());
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
 
-                return (
-                    <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform transform hover:scale-100"
-                        onClick={() => navigate(`/product/${category.toLocaleLowerCase()}`)}
-                    >
-                        <div className='p-4'>
-                            <p className='text-xl font-semibold mb-2 flex items-center gap-2'>
-                                {category}
-                                {productIcons.rightArrow}
-                            </p>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-4">
-                                {filteredProducts.slice(0, 6).map((product, productIndex) => (
-                                    productIndex !== 5 ? (
+    useEffect(() => {
+        setVisibleSearch(true)
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth < 640);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // If no products are available, display the loading bar
+    if (!allProducts || allProducts.length === 0) {
+        return (
+            <div className="flex justify-center items-center mt-4 ">
+                {icons.loadingIcon} {/* This assumes your icons.loadingIcon is the loading bar */}
+            </div>
+        );
+    }
+
+    return (
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3  min-h-screen'>
+            {categories.map((category, index) => {
+                const filteredProducts = allProducts.filter(
+                    product => product.category.toLowerCase() === category.toLowerCase()
+                );
+
+                if (filteredProducts.length) {
+                    return (
+                        <div
+                            key={index}
+                            className="rounded-lg sm:shadow-md overflow-hidden cursor-pointer transition-transform transform hover:scale-105 "
+                            onClick={() => navigate(`/product/${category.toLowerCase()}`)}
+                        >
+                            <div className='p-4'>
+                                <p className='text-xl font-semibold sm:hidden mb-2 flex items-center gap-2'>
+                                    {category}
+                                    {productIcons.rightArrow}
+                                </p>
+                                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                                    {filteredProducts.slice(0, isSmallScreen ? 2 : 3).map((product, productIndex) => (
                                         <img
                                             key={productIndex}
-                                            className={`w-full h-40  rounded-lg ${productIndex === 4 ? "hidden md:block" : "block"}`}
+                                            className="w-full h-40 rounded-lg block"
                                             src={`data:${product.image.contentType};base64,${product.image.data}`}
                                             alt={product.name}
                                         />
-                                    ) : (
-                                        <div key={productIndex} className="flex items-center justify-center text-blue-600 font-semibold hidden md:flex">
+                                    ))}
+                                    {!isSmallScreen && filteredProducts.length >= 4 && (
+                                        <div className="items-center justify-center text-blue-600 font-semibold hidden sm:flex">
                                             <p>Shop more</p>
                                             {productIcons.rightArrow}
                                         </div>
-                                    )
-                                ))}
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                );
+                    );
+                }
+
+                return null; // If no products in a category, nothing is returned
             })}
         </div>
     );
 };
 
 export default Products;
-
-
-

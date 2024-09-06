@@ -1,70 +1,37 @@
-// import React, { useContext } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { ContextProvider } from '../../service/Context';
-// import productIcons from '../../data/productIcon';
-
-// const Pro = () => {
-//     const { allProducts } = useContext(ContextProvider);
-//     const { proId } = useParams();
-
-//     // Find the product that matches the proId
-//     const product = allProducts.find(product => product._id === proId);
-
-//     return (
-//         <div className='p-[12px] sm:p-[34px] w-full '>
-//             {product ? (
-//                 <div className='flex flex-col items-center gap-2 w-full '>
-
-//                     <img className='h-[400px]'
-//                         src={`data:${product.image.contentType};base64,${product.image.data}`}
-//                         alt={product.name}
-//                     />
-//                     <div className="flex flex-col gap-1">
-//                         <p className='text-[10px] '>{product.seller}</p>
-//                         <p className='font-medium'>{product.name}</p>
-//                         <p className='font-bold text-[20px] '>₹{product.price}</p>
-//                         <small className='capitalize'> free delivery</small>
-//                         {
-//                             product.category === "fachion" && <small className='capitalize'> No Cost EMI from ₹2000/month</small>
-//                         }
-//                         {/* <p>Only {product.stock} </p> */}
-//                         <div className="button-group  flex flex-col sm:flex-row gap-2 mt-auto sm:mt-1 ">
-//                             <button className='flex gap-1 items-center justify-center py-1 px-2 text-white bg-blue-600 rounded capitalize'>{productIcons.cart}add cart</button>
-//                             <button className='bg-[#FB641B] rounded p-1 text-white capitalize '>buy now</button>
-                           
-//                         </div>
-//                         <p className='hidden md:block h-full w-full mt-1'>{product.description}</p>
-                        
-//                     </div>
-                   
-
-//                 </div>
-//             ) : (
-//                 <p>Product not found</p>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default Pro;
-
-
-
-
-import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
+import usePopUp from '../popup/PopUp';
 
 const Pro = () => {
-    const { allProducts,addCart, cart,quantities, setQuantities,updateQuantity } = useContext(ContextProvider);
+    const navigate=useNavigate()
+    const { triggerPopUp, PopUp } = usePopUp();
+    const { allProducts, addCart, cart, quantities, setQuantities, updateQuantity, cartProduct, setCartProduct, removePRoductInCart,setVisibleSearch } = useContext(ContextProvider);
     const { proId } = useParams();
-
-    // Find the product that matches the proId
+    // const [isLoading, setIsLoading] = useState(true);
     const product = allProducts.find(product => product._id.toLocaleLowerCase() === proId.toLocaleLowerCase());
+    useEffect(() => {
+        setVisibleSearch(true)
+    }, []);
+
+   
+
+  
+
+    const onAddCart=()=>{
+        addCart(product._id, quantities[product._id] || 1)
+        triggerPopUp(true, 'Item added to cart');
+
+    }
+
+
+    
+
+
 
     return (
-        <div className="p-4 sm:p-8 w-full">
+        <div className="p-4 sm:p-8 w-full min-h-screen">
             {product ? (
                 <div className="flex flex-col items-center gap-4 w-full max-w-4xl mx-auto">
                     {/* Product Image */}
@@ -75,7 +42,7 @@ const Pro = () => {
                             alt={product.name}
                         />
                     </div>
-                    
+
                     {/* Product Details */}
                     <div className="flex flex-col gap-4 w-full">
                         <p className="text-gray-600 text-sm">{product.seller}</p>
@@ -88,35 +55,46 @@ const Pro = () => {
                         <p className="text-gray-700 text-sm mt-2">{product.description}</p>
 
                         <div className="quantity flex gap-2 items-center">
-                                <div
-                                    className="add-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
-                                    onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) < 10 ? (quantities[product._id] || 1) + 1 : (quantities[product._id] || 1))}
-                                >
-                                    +
-                                </div>
-                                <input
-                                    type="number"
-                                    value={quantities[product._id] || 1}
-                                    readOnly
-                                    className="w-12 text-center border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-400"
-                                />
-                                <div
-                                    className="sub-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
-                                    onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) > 1 ? (quantities[product._id] || 1) - 1 : 1)}
-                                >
-                                    -
-                                </div>
+                            <div
+                                className="add-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
+                                onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) < 10 ? (quantities[product._id] || 1) + 1 : (quantities[product._id] || 1))}
+                            >
+                                +
                             </div>
-                        
-                        {/* Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-2 mt-4">
-                            <button className="flex items-center justify-center py-2 px-4 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors" onClick={() => addCart(product._id, quantities[product._id] || 1)}>
+                            <input
+                                type="number"
+                                value={quantities[product._id] || 1}
+                                readOnly
+                                className="w-12 text-center border border-gray-300 rounded py-2 px-3 outline-none focus:border-blue-400"
+                            />
+                            <div
+                                className="sub-btn bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded cursor-pointer"
+                                onClick={() => updateQuantity(product._id, (quantities[product._id] || 1) > 1 ? (quantities[product._id] || 1) - 1 : 1)}
+                            >
+                                -
+                            </div>
+                        </div>
+
+
+                        {cart.some(item => item.productId.toString() === product._id.toString()) ? (
+                            <button
+                                className="flex items-center justify-center py-2 px-4 text-white bg-red-500 rounded-lg shadow-md transition-transform transform hover:bg-red-600 capitalize"
+
+                            >
+                                {productIcons.cart} Already added in cart
+                            </button>
+                        ) : (
+                            <button
+                                className="flex items-center justify-center py-2 px-4 text-white bg-blue-500 rounded-lg shadow-md transition-transform transform hover:bg-blue-600 capitalize"
+                                onClick={onAddCart}
+                            >
                                 {productIcons.cart} Add to Cart
                             </button>
-                            <button className="flex items-center justify-center py-2 px-4 bg-orange-600 text-white rounded-lg shadow-md hover:bg-orange-700 transition-colors">
-                                Buy Now
-                            </button>
-                        </div>
+                        )}
+                        <button className="flex items-center justify-center py-2 px-4 text-white bg-orange-500 rounded-lg shadow-md transition-transform transform hover:bg-orange-600 capitalize" onClick={() => navigate(`/orderpage/${product._id}`)}>
+                            Buy Now
+                        </button>
+
                     </div>
                 </div>
             ) : (

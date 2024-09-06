@@ -52,9 +52,44 @@ const removeProductInCart = async (req,res) => {
 
 }
 
+const addAddress=async (req,res)=>{
+    
+    const { id } = req.params;
+    try{
+        const user = await userModel.findById(id)
+        console.log(user)
+        console.log(req.body)
+        user.address=req.body
+        await user.save()
+        res.status(200).json({success:true,user})
+      
+    }catch(error){
+        res.status(404).json({success:false,error})
+    }
 
 
-module.exports = { addCart,removeProductInCart }
+}
+const removeAllCartItems=async (req,res)=>{
+    
+    const { id } = req.params;
+    try{
+        const user = await userModel.findById(id)
+        user.cart=[]
+        await user.save()
+        res.status(200).json({success:true,cart:user.cart})
+      
+    }catch(error){
+        res.status(404).json({success:false,error})
+    }
+
+
+}
+
+
+
+
+
+module.exports = { addCart,removeProductInCart,addAddress,removeAllCartItems }
 
 
 

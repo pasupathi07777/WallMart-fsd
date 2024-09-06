@@ -6,6 +6,8 @@ import appliancesImage from '../img/category/appliances.png';
 import grocery from '../img/category/grocery.png';
 import buaty from '../img/category/buaty..jpeg';
 import toy from '../img/category/toy.jpeg';
+import sport from '../img/category/sport.webp';
+
 
 
 export const category=[
@@ -36,8 +38,8 @@ export const category=[
         image:grocery
     },
     {
-        category:"appliances",
-        image:appliancesImage
+        category:"sports",
+        image:sport
     }
     ,
     {
@@ -46,7 +48,7 @@ export const category=[
     }
     ,
     {
-        category:"buaty",
+        category:"beauty",
         image:buaty
     }
 ]

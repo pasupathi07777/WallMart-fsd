@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const productModel=require('./addProductModel')
+const productModel = require('./addProductModel')
 
 // user schema 
 
@@ -38,6 +38,46 @@ const userSchema = new mongoose.Schema({
             required: true,
             min: 1,
         }
+    }],
+    address: {
+        street: {
+            type: String,
+
+        },
+        city: {
+            type: String,
+
+        },
+        state: {
+            type: String,
+
+        },
+        postalCode: {
+            type: String,
+
+        },
+        country: {
+            type: String,
+
+        }
+    },
+   
+    orders: [{
+        product:{
+            type: String,
+        },
+        orderDate: {
+            type: Date,
+            default: Date.now,
+        },
+        status: {
+            type: String,
+            // enum: ['pending', 'shipped', 'delivered', 'cancelled'],
+            default: 'Pending',
+        }
+
+        
+
     }]
 
 

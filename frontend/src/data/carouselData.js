@@ -6,12 +6,16 @@ import imageThree from '../img/carausel/imageThree.webp'
 
 export const caruselImages=[
     {
-        image:imageOne
+        image:imageOne,
+        path:"appliances"
     },
     {
-        image:imageTwo
+        image:imageTwo,
+        path:"mobile%20phones"
     },
     {
-        image:imageThree
+        image:imageThree,
+        path:"appliances"
+       
     }
 ]

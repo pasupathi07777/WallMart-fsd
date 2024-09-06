@@ -11,12 +11,12 @@ const AllUser = () => {
   function formatDateToYYYYMMDD(isoDate) {
     const date = new Date(isoDate);
     const year = date.getFullYear(isoDate);
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
   return (
-    <div className='p-[12px] flex flex-col gap-2  '>
+    <div className='p-[12px] flex flex-col gap-2  w-full min-h-screen '>
       <h1 className='font-bold text-[24px]'>Users List</h1>
       {
         allUsers.length ? (

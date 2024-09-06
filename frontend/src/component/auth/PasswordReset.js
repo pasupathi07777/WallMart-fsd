@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './PasswordReset.css'
 import { ContextProvider } from '../../service/Context'
+import usePopUp from '../popup/PopUp';
 
 const PasswordReset = () => {
-    const { passwordReset } = useContext(ContextProvider)
+    const { triggerPopUp, PopUp } = usePopUp();
+    const { passwordReset,  setVisibleSearch } = useContext(ContextProvider)
 
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ const PasswordReset = () => {
     const [conformPasswordError, setConformPasswordError] = useState("");
 
     useEffect(() => {
+        setVisibleSearch(false)
 
         let status = JSON.parse(localStorage.getItem("wallMat"));
         if (status.login) {
@@ -33,6 +36,7 @@ const PasswordReset = () => {
     }, [])
 
     const onResetPassword = async () => {
+       
 
         if (gmail === "") {
             setEmailError("Required")
@@ -53,7 +57,7 @@ const PasswordReset = () => {
             const res = await passwordReset({ gmail, password })
             console.log(res.for)
             if (res.success === true) {
-
+                triggerPopUp(true, 'Password Reset Successfully');
                 navigate('/login');
                 setGmail("")
                 setPassword("")
@@ -165,7 +169,7 @@ const PasswordReset = () => {
         // </div>
 
 
-        <div className="flex flex-col justify-center items-center w-full sm:px-[32px] sm:pb-[24px]">
+        <div className="flex flex-col justify-center items-center w-full sm:px-[32px] sm:pb-[24px] min-h-screen">
             <div className="flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg sm:p-[32px] bg-white sm:shadow-lg">
                 <div className="font-bold capitalize text-[24px]">Reset Password</div>
 
