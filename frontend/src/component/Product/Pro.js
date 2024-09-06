@@ -1,32 +1,32 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 import usePopUp from '../popup/PopUp';
 
+
 const Pro = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
+
     const { triggerPopUp, PopUp } = usePopUp();
-    const { allProducts, addCart, cart, quantities, setQuantities, updateQuantity, cartProduct, setCartProduct, removePRoductInCart,setVisibleSearch } = useContext(ContextProvider);
+    const { allProducts, addCart, cart, quantities, setQuantities, updateQuantity, cartProduct, setCartProduct, removePRoductInCart, setVisibleSearch } = useContext(ContextProvider);
     const { proId } = useParams();
-   
+
     const product = allProducts.find(product => product._id.toLocaleLowerCase() === proId.toLocaleLowerCase());
-    useEffect(() => {
-        setVisibleSearch(true)
-    }, []);
-
    
 
-  
 
-    const onAddCart=()=>{
+
+
+
+    const onAddCart = () => {
         addCart(product._id, quantities[product._id] || 1)
         triggerPopUp(true, 'Item added to cart');
 
     }
 
 
-    
+
 
 
 

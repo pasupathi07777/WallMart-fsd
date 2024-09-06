@@ -4,15 +4,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ContextProvider } from '../../service/Context'
 import adminIcon from '../../data/adminData'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
+import usePopUp from '../popup/PopUp';
 const AllProduct = () => {
+  const { triggerPopUp, PopUp } = usePopUp();
   const { allProducts } = useContext(ContextProvider)
   const [products,setProducts]=useState([])
   const navigate = useNavigate()
   const onEditProduct = (productId) => {
     navigate(`/admin/editproduvt/${productId}`)
 
+  }
+  const onDelete=()=>{
+    triggerPopUp(true, 'Delete Option Not Available');
   }
   useEffect(()=>{
     setProducts(allProducts)
@@ -35,7 +39,7 @@ const AllProduct = () => {
             />
             <div className="flex gap-2 mt-2">
               <button className="text-blue-500 hover:text-blue-700 flex items-center gap-1" onClick={() => onEditProduct(e._id)}>{adminIcon.editIcon} Edit</button>
-              <button className="text-red-500 hover:text-red-700 flex items-center gap-1">{adminIcon.deleteIcon} Delete</button>
+              <button className="text-red-500 hover:text-red-700 flex items-center gap-1" onClick={onDelete}>{adminIcon.deleteIcon} Delete</button>
             </div>
           </div>
         ))}

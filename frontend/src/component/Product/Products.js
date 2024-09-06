@@ -23,6 +23,7 @@ const Products = () => {
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setVisibleSearch(true)
         const handleResize = () => {
             setIsSmallScreen(window.innerWidth < 640);

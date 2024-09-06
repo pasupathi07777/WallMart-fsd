@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import usePopUp from '../popup/PopUp';
 
 const UserProfile = () => {
-    const { triggerPopUp, PopUp } = usePopUp();
+    const { triggerPopUp } = usePopUp();
     const { loginUserDetails, logOut, setVisibleSearch, address, updateProfile } = useContext(ContextProvider);
     const navigate = useNavigate();
 
@@ -30,6 +30,9 @@ const UserProfile = () => {
         return `${year}-${month}-${day}`;
     }
 
+
+  
+
     // Handle logout
     const logOutUser = async () => {
         const response = await logOut(false);
@@ -42,7 +45,7 @@ const UserProfile = () => {
 
     const toggleEditMode = () => setEditMode(!editMode);
 
-    
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -51,7 +54,7 @@ const UserProfile = () => {
         }));
     };
 
-  
+
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -72,8 +75,7 @@ const UserProfile = () => {
         }
     };
 
-    const readableCreatedAt = formatDateToYYYYMMDD(loginUserDetails.createdAt);
-    const readableUpdatedAt = formatDateToYYYYMMDD(loginUserDetails.updatedAt);
+
 
     useEffect(() => {
         setVisibleSearch(true);
@@ -82,7 +84,7 @@ const UserProfile = () => {
             userName: loginUserDetails.userName,
             address: { ...address }
         }));
-    }, [address, setVisibleSearch]);
+    }, [address, setVisibleSearch,loginUserDetails.userName]);
 
     return (
         <div className="flex flex-col items-center w-full  sm:px-6 lg:px-8 sm:bg-gray-100 min-h-screen">
@@ -103,9 +105,13 @@ const UserProfile = () => {
                             <p className="font-medium text-gray-700 capitalize">{formData.userName}</p>
                         )}
                     </div>
-                    <div className={`mb-4 ${editMode ?"hidden":"block "} `}>
+                    <div className={`mb-4 ${editMode ? "hidden" : "block "} `}>
                         <h2 className="text-gray-500 font-semibold text-lg">Email Address</h2>
                         <p className="font-medium text-gray-700">{loginUserDetails.gmail}</p>
+                    </div>
+                    <div className={`mb-4 ${editMode ? "hidden" : "block "} `}>
+                        <h2 className="text-gray-500 font-semibold text-lg">Joined in</h2>
+                        <p className="font-medium text-gray-700">{formatDateToYYYYMMDD(loginUserDetails.createdAt)}</p>
                     </div>
 
                     <div className="mb-6">
@@ -183,7 +189,7 @@ const UserProfile = () => {
                         )}
                     </div>
 
-                    <div className="flex flex-col gap-3 mt-4">
+                    <div className={`flex flex-col gap-3 mt-4 ${editMode ? "hidden" : "block "}`}>
                         <button className="bg-blue-600 hover:bg-blue-700 font-medium px-4 py-2 rounded text-white transition duration-200" onClick={() => navigate('/orders')}>
                             My Orders
                         </button>
@@ -205,6 +211,7 @@ const UserProfile = () => {
             </div>
         </div>
     );
-;}
+    ;
+}
 
 export default UserProfile;

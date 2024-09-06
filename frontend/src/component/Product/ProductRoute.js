@@ -9,12 +9,12 @@ const ProductRoute = () => {
   const [isLoading, setIsloading] = useState(true)
   const { allProducts, addCart, quantities, updateQuantity, cart, cartProduct, setCartProduct, removePRoductInCart,  setVisibleSearch } = useContext(ContextProvider);
   const { id } = useParams();
-  console.log(cart)
-  console.log(allProducts)
+
 
 
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setVisibleSearch(true)
     if (allProducts) {
       setIsloading(false)
@@ -89,17 +89,17 @@ const ProductRoute = () => {
                   <div className="flex flex-col sm:flex-row gap-2">
                     {cart.some(item => item.productId.toString() === product._id.toString()) ? (
                       <button
-                        className="flex items-center justify-center py-2 px-4 text-white bg-red-500 rounded-lg shadow-md transition-transform transform hover:bg-red-600 capitalize"
+                        className="flex items-center justify-center py-2 px-4 text-white bg-red-500 rounded-lg shadow-md transition-transform transform hover:bg-red-600 capitalize gap-1"
 
                       >
-                        {productIcons.cart} Already added in cart
+                         Already in Cart {productIcons.cart}
                       </button>
                     ) : (
                       <button
-                        className="flex items-center justify-center py-2 px-4 text-white bg-blue-500 rounded-lg shadow-md transition-transform transform hover:bg-blue-600 capitalize"
+                        className="flex items-center justify-center py-2 px-4 text-white bg-blue-500 rounded-lg shadow-md transition-transform transform hover:bg-blue-600 capitalize  gap-2 "
                         onClick={()=>onAddCart(product._id)}
                       >
-                        {productIcons.cart} Add to Cart
+                        Add to Cart  {productIcons.cart}
                       </button>
                     )}
 

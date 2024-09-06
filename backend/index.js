@@ -7,7 +7,7 @@ const route = require('./routes/route')
 
 connectDb().then(() => {
   console.log("DataBase  Connected")
-  app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT || 5000 , () => {
 
       console.log("server started " + process.env.PORT)
   })

@@ -26,7 +26,7 @@ const Context = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
   // cart
   const [cart, setCart] = useState([])
-  const [cartMessage, setCartMessage] = useState("")
+  // const [cartMessage, setCartMessage] = useState("")
 
   // adddress
   const [address, setAddress] = useState({
@@ -236,11 +236,7 @@ const updateQuantity = (productId, newQuantity) => {
 
 const addCart = async (productId, quantity) => {
 
-  const existingProduct = cart.find(pro => pro.productId == productId);
-  // if (existingProduct) {
-  //   return setCartMessage("Aleredy Added ...")
-
-  // }
+  
 
   console.log(productId, quantity, loginUserDetails._id)
   try {
@@ -424,7 +420,7 @@ return (
   <ContextProvider.Provider value={{
 
     // user auth 
-    signUp, logIn, logOut, passwordReset, logOut,
+    signUp, logIn, logOut, passwordReset,
     // user status
     loginUserDetails, login, isLoading, setIsLoading, setLogin,
     // all product 

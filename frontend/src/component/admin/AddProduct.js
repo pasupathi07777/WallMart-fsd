@@ -82,6 +82,8 @@ const AddProduct = () => {
 
   };
 
+  
+
   useEffect(() => {
     setVisibleSearch(false)
   }, [])
