@@ -12,7 +12,8 @@ const Context = ({ children }) => {
 
 
   // port
-  const PORT = "http://localhost:5000/api"
+  // const PORT = "http://localhost:5000/api"
+  const PORT = `${process.env.REACT_APP_BACKEND_URL}/api`
 
   // search status
   const [visibleSearch, setVisibleSearch] = useState(true)
@@ -45,7 +46,7 @@ const Context = ({ children }) => {
 
   const userStatus = async (gmail) => {
     try {
-      const responce = await axios.get("http://localhost:5000/api/loginstatus", { params: { gmail: gmail } })
+      const responce = await axios.get(`${PORT}/loginstatus`, { params: { gmail: gmail } })
       setLoginUserDetails(responce.data)
       setLogin(responce.data.login)
       setCart(responce.data.cart)
@@ -66,7 +67,7 @@ const Context = ({ children }) => {
   // userlogin
   const logIn = async (state) => {
     try {
-      const responce = await axios.get("http://localhost:5000/api/login", {
+      const responce = await axios.get(`${PORT}/login`, {
         params: state
       })
       return responce.data
@@ -77,7 +78,7 @@ const Context = ({ children }) => {
   // user signup
   const signUp = async (state) => {
     try {
-      const responce = await axios.post("http://localhost:5000/api/signup", state)
+      const responce = await axios.post(`${PORT}/signup`, state)
       return responce
     } catch (error) {
       return error
@@ -86,7 +87,7 @@ const Context = ({ children }) => {
   // password reset
   const passwordReset = async (state) => {
     try {
-      const responce = await axios.post("http://localhost:5000/api/passwordreset", state)
+      const responce = await axios.post(`${PORT}/passwordreset`, state)
 
       return responce.data
     } catch (error) {
@@ -101,7 +102,7 @@ const Context = ({ children }) => {
   const logOut = async (state) => {
     console.log(state)
     try {
-      const responce = await axios.post("http://localhost:5000/api/logout", state)
+      const responce = await axios.post(`${PORT}/api/logout`, state)
 
 
       if (responce.data.success) {
@@ -121,7 +122,7 @@ const Context = ({ children }) => {
   // get all Products 
   const getProduct = async () => {
     try {
-      const product = await axios.get("http://localhost:5000/api/getproduct")
+      const product = await axios.get(`${PORT}/getproduct`)
       setAllProducts(product.data.allProducts)
 
     } catch (error) {
@@ -134,7 +135,7 @@ const Context = ({ children }) => {
   // add product
   const addProduct = async (formData) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/addproduct", formData, {
+      const response = await axios.post(`${PORT}/addproduct`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -183,7 +184,7 @@ try{
 
 const getAllUsers = async () => {
   try {
-    const users = await axios.get("http://localhost:5000/api/allusers")
+    const users = await axios.get(`${PORT}/allusers`)
     setAllUsers(users.data.users)
    
   } catch (error) {
