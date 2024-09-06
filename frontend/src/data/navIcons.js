@@ -35,34 +35,31 @@ const icons = {
     //     />
     // </svg>
        loadingIcon:<svg
-    class="container text-[10px]"
-    viewBox="0 0 40 40"
-    height="20px"
-    width="20px"
->
-    <circle
-        class="track"
-        cx="20"
-        cy="20"
-        r="17.5"
-        pathlength="100"
-        stroke-width="5"
-        fill="none"
-    />
-    <circle
-        class="car"
-        cx="20"
-        cy="20"
-        r="17.5"
-        pathlength="100"
-        stroke-width="5"
-        fill="none"
-    />
-</svg>
-
-
-
-
+       className="container text-[10px]"
+       viewBox="0 0 40 40"
+       height="20px"
+       width="20px"
+   >
+       <circle
+           className="track"
+           cx="20"
+           cy="20"
+           r="17.5"
+           pathLength="100"
+           strokeWidth="5"
+           fill="none"
+       />
+       <circle
+           className="car"
+           cx="20"
+           cy="20"
+           r="17.5"
+           pathLength="100"
+           strokeWidth="5"
+           fill="none"
+       />
+   </svg>
+   
 
 
 

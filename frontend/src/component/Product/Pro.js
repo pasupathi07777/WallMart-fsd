@@ -9,7 +9,7 @@ const Pro = () => {
     const { triggerPopUp, PopUp } = usePopUp();
     const { allProducts, addCart, cart, quantities, setQuantities, updateQuantity, cartProduct, setCartProduct, removePRoductInCart,setVisibleSearch } = useContext(ContextProvider);
     const { proId } = useParams();
-    // const [isLoading, setIsLoading] = useState(true);
+   
     const product = allProducts.find(product => product._id.toLocaleLowerCase() === proId.toLocaleLowerCase());
     useEffect(() => {
         setVisibleSearch(true)

@@ -31,8 +31,8 @@ const App = () => {
   return (
     <div className='w-[100vw] h-[100vh] flex flex-col  overflow-x-hidden overflow-y-scroll '>
       <div className="nav sticky top-0 left-0 right-0 z-50 rounded-md  ">
-        <Nav />
-        {/* <PopUp /> */}
+        {/* <Nav /> */}
+       
       </div>
       <div className="home w-full h-screen">
         <Routes>

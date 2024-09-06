@@ -8,10 +8,6 @@ import { ContextProvider } from '../service/Context'
 const Home = () => {
   const {visibleSearch,setVisibleSearch}=useContext(ContextProvider)
 
-  // useEffect(()=>{
-  //   setVisibleSearch(true)
-
-  // },[])
   return (
     <div className='flex flex-col sm:px-[16px] sm:py-[16px] sm:gap-[12px]  min-h-screen  bg-[#F1F2F4] '>
       <ProductCategory />

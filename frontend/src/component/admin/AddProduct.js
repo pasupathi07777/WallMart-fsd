@@ -72,16 +72,7 @@ const AddProduct = () => {
     formData.append('stock', stock);
     formData.append('seller', seller);
 
-    // try {
-    //   const response = await axios.post("http://localhost:5000/api/addproduct", formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   });
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+   
 
     const responce = await addProduct(formData)
     if (responce) {

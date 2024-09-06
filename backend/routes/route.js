@@ -6,6 +6,7 @@ const { addUser,findUser,resetPassword, loginStatus, logOut,getAllUsers } =requi
 const addProductModel = require('../models/addProductModel');
 const { addCart, removeProductInCart,addAddress, removeAllCartItems } = require('../controller/cart');
 const { addOrder, adminEditOrderStatus, adminDeleteOrder } = require('../controller/order');
+const { updateProfile } = require('../controller/updataProfile');
 const route=express.Router()
 
 
@@ -58,6 +59,10 @@ route.delete("/removeallincart/:id",removeAllCartItems)
 
 route.patch('/adminEditOrderStatus/:id',adminEditOrderStatus)
 route.patch('/adminDeleteOrder',adminDeleteOrder)
+
+// update profile 
+
+route.patch("/updateprofile/:id",updateProfile)
 
 
 

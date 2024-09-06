@@ -7,7 +7,6 @@ import adminIcon from '../../data/adminData'
 
 const AllUser = () => {
   const { allUsers } = useContext(ContextProvider)
-  console.log(allUsers)
   function formatDateToYYYYMMDD(isoDate) {
     const date = new Date(isoDate);
     const year = date.getFullYear(isoDate);

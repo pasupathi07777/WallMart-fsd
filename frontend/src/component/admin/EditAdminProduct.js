@@ -70,7 +70,7 @@ const EditAdminProduct = () => {
     formData.append('seller', seller);
 
 
-    console.log(formData)
+    
 
     const responce = await updateProduct(id, formData)
     if (responce) {

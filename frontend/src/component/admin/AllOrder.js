@@ -38,7 +38,8 @@ const AllOrder = () => {
         triggerPopUp(true, 'Status Updated');
       }
     } catch (error) {
-      console.error('Error updating order status:', error);
+       // console.error('Error updating order status:', error);
+      
     }
   };
   const handleDeleteClick = async (orderId) => {
@@ -49,7 +50,7 @@ const AllOrder = () => {
         triggerPopUp(true, 'Order Deleted');
       }
     } catch (error) {
-      console.error('Error updating order status:', error);
+      // console.error('Error updating order status:', error);
     }
   };
 

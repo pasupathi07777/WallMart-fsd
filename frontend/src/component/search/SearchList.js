@@ -12,7 +12,7 @@ const SearchList = () => {
 
   console.log(id);
 
-  // Filter products that include the search term in their name, seller, or category
+  
   const searchProduct = allProducts.filter((product) =>
     product.name.toLowerCase().includes(id.toLowerCase()) || 
     product.seller.toLowerCase().includes(id.toLowerCase()) || 
