@@ -87,7 +87,7 @@ const AddressForm = () => {
     },[loginUserDetails])
 
     return (
-        <div className="flex flex-col items-center w-full sm:px-8 py-8">
+        <div className="flex flex-col items-center w-full sm:px-8 py-8 min-h-screen">
             <div className="login-form flex flex-col gap-4 w-full max-w-md px-4 py-6 sm:px-8 sm:py-10 bg-white rounded-lg sm:shadow-md">
                 <div className="font-bold text-2xl text-center">Address Form</div>
 
