@@ -12,7 +12,7 @@
 
 //   console.log(id);
 
-  
+
 //   const searchProduct = allProducts.filter((product) =>
 //     product.name.toLowerCase().includes(id.toLowerCase()) || 
 //     product.seller.toLowerCase().includes(id.toLowerCase()) || 
@@ -92,8 +92,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
-import CartLoder from '../animation/CartLoder';
-// import CartLoader from '../animation/CartLoader';
+import CartLoader from '../animation/CartLoder';
+
 
 
 const SearchList = () => {
@@ -127,7 +127,7 @@ const SearchList = () => {
   };
 
   return (
-    <div className="p-4 sm:p-8 w-full h-screen">
+    <div className="p-4 sm:p-8 w-full min-h-screen">
       {isLoading ? (
         <p>Loading...</p>
       ) : searchProduct.length > 0 ? (
@@ -188,10 +188,17 @@ const SearchList = () => {
                     onClick={() => onAddCart(product._id)}
                   >
                     {loadingId === product._id ? (
-                      <span className="flex items-center gap-3">
-                        <CartLoder />
-                        Adding...
-                      </span>
+                      // <span className="flex items-center gap-3">
+                      //   <CartLoder />
+                      //   Adding...
+                      // </span>
+                      <div className="flex items-center justify-center  gap-2">
+                        <span> Adding...</span>
+                        <div className=" p-1 rounded ms-auto ">
+                          <CartLoader />
+                        </div>
+
+                      </div>
                     ) : (
                       <p className='flex gap-1'>Add to Cart {productIcons.cart}</p>
                     )}
