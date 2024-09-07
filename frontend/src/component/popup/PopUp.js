@@ -18,19 +18,19 @@ const usePopUp = () => {
 
   const PopUp = () => (
     <Popconfirm
-      title="Delete the task"
-      description="Are you sure to delete this task?"
-      open={open}
-      onConfirm={() => triggerPopUp(true, 'Next step')}
-      onCancel={() => triggerPopUp(false, 'Click on cancel')}
-      okText="Yes"
-      cancelText="No"
+      // title="Delete the task"
+      // description="Are you sure to delete this task?"
+      // open={open}
+      // onConfirm={() => triggerPopUp(true, 'Next step')}
+      // onCancel={() => triggerPopUp(false, 'Click on cancel')}
+      // okText="Yes"
+      // cancelText="No"
     >
       <div />
     </Popconfirm>
   );
 
-  return { triggerPopUp, PopUp };
+  return { triggerPopUp,PopUp };
 };
 
 export default usePopUp;

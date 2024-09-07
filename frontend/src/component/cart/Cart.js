@@ -189,9 +189,12 @@ const Cart = () => {
     setRemoveLoading(true);
     const response = await removePRoductInCart(productId);
     if (response.success) {
-      triggerPopUp(true, 'Item removed from cart');
+      triggerPopUp(true, 'Removed Successful');
+      setRemoveLoading(false);
+    }else{
+      setRemoveLoading(false);
     }
-    setRemoveLoading(false); // Stop the loading state
+     // Stop the loading state
   };
 
   return (
