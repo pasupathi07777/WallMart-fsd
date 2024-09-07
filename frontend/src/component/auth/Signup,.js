@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
-
+import Loader from '../animation/LoaderAnimation';
 const Signup = () => {
     const { triggerPopUp, PopUp } = usePopUp();
     const { signUp,  setVisibleSearch } = useContext(ContextProvider);
@@ -23,6 +23,8 @@ const Signup = () => {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [signUpError, setSignUpError] = useState("");
+
+  
 
     useEffect(() => {
         setVisibleSearch(false)
@@ -55,6 +57,7 @@ const Signup = () => {
         if (userName === "" || gmail === "" || password === "") {
             return;
         } else {
+            setLoading(true);
             const res = await signUp({ userName, gmail, password });
             if (res.data.success) {
                 triggerPopUp(true, 'Registration Successful');
@@ -62,17 +65,18 @@ const Signup = () => {
                 setGmail("");
                 setUserName("");
                 setPassword("");
+                setLoading(false);
             } else {
                 setEmailError(res.response.data.message);
+                setLoading(false);
             }
         }
     };
 
     return (
         <div className="flex flex-col items-center w-full bg-white  sm:px-8 py-8 min-h-screen">
-            {loading ? (
-                <p>Loading....</p>
-            ) : (
+           {loading && <Loader spinning={loading} />}
+           
                 <div className="signup-form flex flex-col gap-4 w-full max-w-md bg-white p-6 sm:p-8 rounded-lg sm:shadow-md mt-8">
                     <div className="title font-semibold text-2xl text-center">
                         Register
@@ -131,7 +135,7 @@ const Signup = () => {
 
                     <button
                         className='px-4 py-2 bg-orange-500 text-white font-semibold rounded mt-4 hover:bg-orange-600 transition-all'
-                        onClick={onSignUp}
+                        onClick={onSignUp}  disabled={loading}
                     >
                         Register
                     </button>
@@ -143,7 +147,7 @@ const Signup = () => {
                         </p>
                     </Link>
                 </div>
-            )}
+           
         </div>
     );
 };

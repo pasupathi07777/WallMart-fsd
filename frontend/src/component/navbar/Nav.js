@@ -26,9 +26,7 @@ const Nav = () => {
   }
   return (
     <nav className='flex items-center justify-between w-full  px-[16px] md:px-[32px] py-[12px] pb-[12px]  flex-wrap md:flex-nowrap gap-2 bg-[#232F3E] text-white  z-50 rounded-sm overflow-hidden  '>
-      {/* <div className="handBurgerIcon md:hidden">
-        {icons.handBurgerIcon}
-      </div> */}
+     
       <div className="logo font-bold text-[24px] order-1 ">
         WallMart
       </div>
@@ -63,11 +61,7 @@ const Nav = () => {
 
 
 
-      {/* <div className="cart flex gap-1 order-3">
-        {icons.cart}
-        <div className="userName  items-start hidden sm:flex">cart</div>
-
-      </div> */}
+   
 
       <div className="flex items-center gap-2 order-3" onClick={() => navigate('/cart')}>
 

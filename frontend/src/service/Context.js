@@ -102,7 +102,7 @@ const Context = ({ children }) => {
   const logOut = async (state) => {
     console.log(state)
     try {
-      const responce = await axios.post(`${PORT}/api/logout`, state)
+      const responce = await axios.post(`${PORT}/logout`, state)
 
 
       if (responce.data.success) {
@@ -154,221 +154,256 @@ const Context = ({ children }) => {
   const updateProduct = async (id, form) => {
 
 
-try{
-    const product = await axios.patch(`${PORT}/updateproductdata/${id}`, form)
+    try {
+      const product = await axios.patch(`${PORT}/updateproductdata/${id}`, form)
 
-    const editedAllProducts = allProducts.map((pro) => {
-      if (pro._id === id) {
-        
-        return {
-          ...pro,
-          ...product.data.product
+      const editedAllProducts = allProducts.map((pro) => {
+        if (pro._id === id) {
+
+          return {
+            ...pro,
+            ...product.data.product
+          }
         }
+        return pro
+      })
+
+
+      setAllProducts(editedAllProducts)
+
+
+      return true
+
+    } catch (error) {
+
+      console.log(error)
+      return false
+    }
+  }
+
+
+  const getAllUsers = async () => {
+    try {
+      const users = await axios.get(`${PORT}/allusers`)
+      setAllUsers(users.data.users)
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+  // cart
+
+  // State to store quantity for each product
+  const [quantities, setQuantities] = useState({});
+  const [cartProduct, setCartProduct] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+
+  const getCartProduct = async () => {
+    const cartItems = await cart.map((cartItem) => {
+      const product = allProducts.find((product) => product._id.toString() === cartItem.productId.toString());
+
+      if (product) {
+        return {
+          ...product,
+          quantity: cartItem.quantity || 1
+        };
       }
-      return pro
+
+      return null;
     })
-
- 
-    setAllProducts(editedAllProducts)
-
-   
-    return true
-
-  } catch (error) {
-   
-    console.log(error)
-    return false
-  }
-}
-
-
-const getAllUsers = async () => {
-  try {
-    const users = await axios.get(`${PORT}/allusers`)
-    setAllUsers(users.data.users)
-   
-  } catch (error) {
-    console.log(error)
+    setCartProduct(cartItems);
 
   }
-}
 
-// cart
+  const getTotalAmount = async () => {
+    const newTotalAmount = cartProduct.reduce((acc, item) => {
+      return acc + (parseFloat(item.price.replace(/,/g, '')) * item.quantity);
+    }, 0);
+    setTotalAmount(newTotalAmount)
+  }
 
-// State to store quantity for each product
-const [quantities, setQuantities] = useState({});
-const [cartProduct, setCartProduct] = useState([]);
-const [totalAmount, setTotalAmount] = useState(0);
 
 
-const getCartProduct = async () => {
-  const cartItems = await cart.map((cartItem) => {
-    const product = allProducts.find((product) => product._id.toString() === cartItem.productId.toString());
+  const updateQuantity = (productId, newQuantity) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: newQuantity
+    }));
+    console.log(quantities)
+  };
 
-    if (product) {
-      return {
-        ...product,
-        quantity: cartItem.quantity || 1
-      };
+  const addCart = async (productId, quantity) => {
+
+
+
+    console.log(productId, quantity, loginUserDetails._id)
+    try {
+      const cart = await axios.put(`${PORT}/addcart/${loginUserDetails._id}`, { productId, quantity })
+      setCart(cart.data.user.cart)
+      console.log(cart.data.user.cart)
+      return true
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+  const removePRoductInCart = async (productId) => {
+    console.log(productId)
+    try {
+      const cart = await axios.put(`${PORT}/removecartitem/${loginUserDetails._id}`, { productId })
+      setCart(cart.data.user.cart)
+      return cart.data
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+  const removeAllInCart = async () => {
+
+    try {
+      const cart = await axios.delete(`${PORT}/removeallincart/${loginUserDetails._id}`)
+      console.log(cart)
+      setCart(cart.data.cart)
+      return cart.data
+
+    } catch (error) {
+      console.log(error)
+      return error.responce
+
     }
 
-    return null;
-  })
-  setCartProduct(cartItems);
+  }
 
-}
+  const updateProfile = async (form) => {
+    try {
+      const user = await axios.patch(`${PORT}/updateprofile/${loginUserDetails._id}`, form)
+      console.log(user)
+      setLoginUserDetails(user.data.user)
+      return true
+    } catch (error) {
+      console.log(error)
 
-const getTotalAmount = async () => {
-  const newTotalAmount = cartProduct.reduce((acc, item) => {
-    return acc + (parseFloat(item.price.replace(/,/g, '')) * item.quantity);
-  }, 0);
-  setTotalAmount(newTotalAmount)
-}
+    }
+
+  }
+
+  // add address 
+  const addAddress = async (add) => {
+    try {
+      const address = await axios.patch(`${PORT}/addaddress/${loginUserDetails._id}`, add)
+      return address.data
+
+
+    } catch (e) {
+
+      console.log(e.message)
+    }
+  }
+
+  // order 
+  const [orderDetails, setOrderDetails] = useState([])
+
+  const [paymentStatus, setPaymentStatus] = useState(false)
+
+  const placeOrder = async (products) => {
+    try {
+      const responce = await axios.patch(`${PORT}/addorder/${loginUserDetails._id}`, products)
+      console.log(responce)
+      return responce.data
+
+    } catch (error) {
+      console.log(error)
+      return error.responce
+
+    }
+
+  }
+
+  // admin edit order 
+
+  const adminEditOrderStatus = async (status) => {
+    console.log(status)
+
+    try {
+      const responce = await axios.patch(`${PORT}/adminEditOrderStatus/${loginUserDetails._id}`, status)
+      const updatedUsers = responce.data.users;
+      const updatedUser = updatedUsers.find(user => user._id === loginUserDetails._id);
+      setAllUsers(responce.data.users)
+      setMyOrders(updatedUser.orders)
+
+      return true
 
 
 
-const updateQuantity = (productId, newQuantity) => {
-  setQuantities(prevQuantities => ({
-    ...prevQuantities,
-    [productId]: newQuantity
-  }));
-  console.log(quantities)
-};
+    } catch (error) {
+      console.log(error)
+      return false
 
-const addCart = async (productId, quantity) => {
 
+    }
+
+  }
+  const adminDeleteOrder = async (orderId) => {
+
+
+    try {
+      const responce = await axios.patch(`${PORT}/adminDeleteOrder`, { orderId })
+      const updatedUsers = responce.data.users;
+      const updatedUser = updatedUsers.find(user => user._id === loginUserDetails._id);
+      setAllUsers(responce.data.users)
+      setMyOrders(updatedUser.orders)
+      return true
+
+
+
+    } catch (error) {
+      console.log(error)
+
+
+    }
+
+  }
+
+  // change admin or user 
+
+ 
+
+
+  const updateUserRole = async (updatedUser) => {
   
 
-  console.log(productId, quantity, loginUserDetails._id)
-  try {
-    const cart = await axios.put(`${PORT}/addcart/${loginUserDetails._id}`, { productId, quantity })
-    setCart(cart.data.user.cart)
-    console.log(cart.data.user.cart)
+    try {
+      const user = await axios.patch(`${PORT}/changeusertype/${updatedUser._id}`, { updatedUser })
+    
+      
+      const updatedAllUsers = allUsers.map((e) => {
+        if (e._id.toString()  === user.data.user._id.toString()) {
+          console.log(e)
+          
+          return { ...e, admin: user.data.user.admin };
+        }
+        return e;
+      });
+      setAllUsers(updatedAllUsers)
 
-  } catch (error) {
-    console.log(error)
+      return true
+    
 
-  }
-}
 
-const removePRoductInCart = async (productId) => {
-  console.log(productId)
-  try {
-    const cart = await axios.put(`${PORT}/removecartitem/${loginUserDetails._id}`, { productId })
-    setCart(cart.data.user.cart)
-    return cart.data
+    } catch (error) {
+      console.log(error)
 
-  } catch (error) {
-    console.log(error)
-
-  }
-}
-
-const removeAllInCart = async () => {
-
-  try {
-    const cart = await axios.delete(`${PORT}/removeallincart/${loginUserDetails._id}`)
-    console.log(cart)
-    setCart(cart.data.cart)
-    return cart.data
-
-  } catch (error) {
-    console.log(error)
-    return error.responce
+    }
 
   }
-
-}
-
-const updateProfile = async (form) => {
-  try {
-    const user = await axios.patch(`${PORT}/updateprofile/${loginUserDetails._id}`, form)
-    console.log(user)
-    setLoginUserDetails(user.data.user)
-    return true
-  } catch (error) {
-    console.log(error)
-
-  }
-
-}
-
-// add address 
-const addAddress = async (add) => {
-  try {
-    const address = await axios.patch(`${PORT}/addaddress/${loginUserDetails._id}`, add)
-    return address.data
-
-
-  } catch (e) {
-
-    console.log(e.message)
-  }
-}
-
-// order 
-const [orderDetails, setOrderDetails] = useState([])
-
-const [paymentStatus, setPaymentStatus] = useState(false)
-
-const placeOrder = async (products) => {
-  try {
-    const responce = await axios.patch(`${PORT}/addorder/${loginUserDetails._id}`, products)
-    console.log(responce)
-    return responce.data
-
-  } catch (error) {
-    console.log(error)
-    return error.responce
-
-  }
-
-}
-
-// admin edit order 
-
-const adminEditOrderStatus = async (status) => {
-  console.log(status)
-
-  try {
-    const responce = await axios.patch(`${PORT}/adminEditOrderStatus/${loginUserDetails._id}`, status)
-    const updatedUsers = responce.data.users;
-    const updatedUser = updatedUsers.find(user => user._id === loginUserDetails._id);
-    setAllUsers(responce.data.users)
-    setMyOrders(updatedUser.orders)
-
-    return true
-
-
-
-  } catch (error) {
-    console.log(error)
-    return false
-
-
-  }
-
-}
-const adminDeleteOrder = async (orderId) => {
-
-
-  try {
-    const responce = await axios.patch(`${PORT}/adminDeleteOrder`, { orderId })
-    const updatedUsers = responce.data.users;
-    const updatedUser = updatedUsers.find(user => user._id === loginUserDetails._id);
-    setAllUsers(responce.data.users)
-    setMyOrders(updatedUser.orders)
-    return true
-
-
-
-  } catch (error) {
-    console.log(error)
-
-
-  }
-
-}
+  
 
 
 
@@ -377,84 +412,86 @@ const adminDeleteOrder = async (orderId) => {
 
 
 
-useEffect(() => {
-  // for admin 
-  getAllUsers()
-  getProduct()
-
-  // user auth 
-  let status = JSON.parse(localStorage.getItem("wallMat"));
-  if (status === null) {
-    setIsLoading(false)
-    setLogin(false)
-    status = {
-      login: false,
-      gmail: null
-    };
-    localStorage.setItem("wallMat", JSON.stringify(status));
-  } else if (status.login === true) {
-    userStatus(status.gmail)
-    setLogin(true)
-
-  } else if (status.login === false) {
-    setIsLoading(false)
-    setLogin(false)
-  }
-
-
-}, [login])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-return (
-  <ContextProvider.Provider value={{
+  useEffect(() => {
+    // for admin 
+    getAllUsers()
+    getProduct()
 
     // user auth 
-    signUp, logIn, logOut, passwordReset,
-    // user status
-    loginUserDetails, login, isLoading, setIsLoading, setLogin,
-    // all product 
-    allProducts, updateProduct, addProduct,
-    // all users
-    allUsers,
-    // cart
-    addCart, cart, quantities, setQuantities, updateQuantity, removePRoductInCart, cartProduct, setCartProduct,
-    totalAmount, setTotalAmount, getCartProduct, getTotalAmount, removeAllInCart, setCart,
+    let status = JSON.parse(localStorage.getItem("wallMat"));
+    if (status === null) {
+      setIsLoading(false)
+      setLogin(false)
+      status = {
+        login: false,
+        gmail: null
+      };
+      localStorage.setItem("wallMat", JSON.stringify(status));
+    } else if (status.login === true) {
+      userStatus(status.gmail)
+      setLogin(true)
 
-    // add address
-    addAddress, address, setAddress,
-    // order details
-    orderDetails, setOrderDetails, paymentStatus, setPaymentStatus,
-    // payment
-    placeOrder
-    // orders
-    , setMyOrders, myOrders, adminEditOrderStatus, adminDeleteOrder
-    // search feture 
-    ,
-    visibleSearch, setVisibleSearch,
-    // update profile 
-    updateProfile
+    } else if (status.login === false) {
+      setIsLoading(false)
+      setLogin(false)
+    }
+
+
+  }, [login])
 
 
 
 
 
-  }}>
-    {children}
 
-  </ContextProvider.Provider>
-)
+
+
+
+
+
+
+
+
+  return (
+    <ContextProvider.Provider value={{
+
+      // user auth 
+      signUp, logIn, logOut, passwordReset,
+      // user status
+      loginUserDetails, login, isLoading, setIsLoading, setLogin,
+      // all product 
+      allProducts, updateProduct, addProduct,
+      // all users
+      allUsers,
+      // cart
+      addCart, cart, quantities, setQuantities, updateQuantity, removePRoductInCart, cartProduct, setCartProduct,
+      totalAmount, setTotalAmount, getCartProduct, getTotalAmount, removeAllInCart, setCart,
+
+      // add address
+      addAddress, address, setAddress,
+      // order details
+      orderDetails, setOrderDetails, paymentStatus, setPaymentStatus,
+      // payment
+      placeOrder
+      // orders
+      , setMyOrders, myOrders, adminEditOrderStatus, adminDeleteOrder
+      // search feture 
+      ,
+      visibleSearch, setVisibleSearch,
+      // update profile 
+      updateProfile,
+      // updateUserRole
+      updateUserRole
+
+
+
+
+
+    }}>
+      {children}
+
+    </ContextProvider.Provider>
+  )
 }
 
 export default Context

@@ -23,6 +23,8 @@ import ConformOrder from './component/order/ConformOrder'
 import MyOrder from './component/order/MyOrder'
 import PopUp from './component/popup/PopUp'
 import EditAdminProduct from './component/admin/EditAdminProduct'
+import Loader from './component/animation/LoaderAnimation'
+import CartLoder from './component/animation/CartLoder'
 
 
 const App = () => {
@@ -32,6 +34,8 @@ const App = () => {
     <div className='w-[100vw] h-[100vh] overflow-x-hidden overflow-y-scroll flex flex-col   '>
       <div className="nav sticky top-0 left-0 right-0 z-50 rounded-md  ">
         <Nav />
+        <Loader/>
+      
        
       </div>
       <div className="home w-full h-screen">

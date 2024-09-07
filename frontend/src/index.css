@@ -15,6 +15,10 @@
   
  
 }
+.ant-spin-dot i {
+  background-color: white !important; /* Set the loader color to white */
+}
+
  .container {
   --uib-size: 40px;
   --uib-color: black;

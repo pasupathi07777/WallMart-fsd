@@ -2,7 +2,7 @@ const express=require('express')
 const multer = require('multer');
 const path = require('path');
 const imageController = require('../controller/AddProductController')
-const { addUser,findUser,resetPassword, loginStatus, logOut,getAllUsers } =require( '../controller/authController');
+const { addUser,findUser,resetPassword, loginStatus, logOut,getAllUsers, updateUserRole } =require( '../controller/authController');
 const addProductModel = require('../models/addProductModel');
 const { addCart, removeProductInCart,addAddress, removeAllCartItems } = require('../controller/cart');
 const { addOrder, adminEditOrderStatus, adminDeleteOrder } = require('../controller/order');
@@ -63,6 +63,10 @@ route.patch('/adminDeleteOrder',adminDeleteOrder)
 // update profile 
 
 route.patch("/updateprofile/:id",updateProfile)
+
+// changeusertype
+
+route.patch("/changeusertype/:id",updateUserRole)
 
 
 

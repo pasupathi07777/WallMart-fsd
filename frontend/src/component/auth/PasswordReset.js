@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import './PasswordReset.css'
 import { ContextProvider } from '../../service/Context'
 import usePopUp from '../popup/PopUp';
+import Loader from '../animation/LoaderAnimation';
 
 const PasswordReset = () => {
     const { triggerPopUp, PopUp } = usePopUp();
     const { passwordReset,  setVisibleSearch } = useContext(ContextProvider)
 
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [gmail, setGmail] = useState("")
     const [password, setPassword] = useState("")
     const [conformPassword, setConformPassword] = useState("")
@@ -54,9 +55,12 @@ const PasswordReset = () => {
             return
 
         } else {
+            setLoading(true)
             const res = await passwordReset({ gmail, password })
             console.log(res.for)
             if (res.success === true) {
+                setLoading(false)
+
                 triggerPopUp(true, 'Password Reset Successfully');
                 navigate('/login');
                 setGmail("")
@@ -64,6 +68,7 @@ const PasswordReset = () => {
                 setConformPassword("")
             } else if (res.success === false) {
                 console.log("failed")
+                setLoading(false)
                 if (res.for === "gmail") {
                     setEmailError(res.message)
                 }
@@ -81,6 +86,7 @@ const PasswordReset = () => {
 
 
         <div className="flex flex-col justify-center items-center w-full sm:px-[32px] sm:pb-[24px] min-h-screen">
+                    {loading && <Loader spinning={loading} />}
             <div className="flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg sm:p-[32px] bg-white sm:shadow-lg">
                 <div className="font-bold capitalize text-[24px]">Reset Password</div>
 
@@ -131,7 +137,7 @@ const PasswordReset = () => {
 
                 <button
                     className="px-4 py-2 font-medium capitalize bg-[#FA9C23] text-white rounded mt-4"
-                    onClick={() => onResetPassword()}
+                    onClick={() => onResetPassword()} disabled={loading}
                 >
                     Reset
                 </button>

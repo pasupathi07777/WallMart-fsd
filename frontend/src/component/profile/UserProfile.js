@@ -2,12 +2,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ContextProvider } from '../../service/Context';
 import { Link, useNavigate } from 'react-router-dom';
 import usePopUp from '../popup/PopUp';
+import Loader from '../animation/LoaderAnimation';
 
 const UserProfile = () => {
     const { triggerPopUp } = usePopUp();
     const { loginUserDetails, logOut, setVisibleSearch, address, updateProfile } = useContext(ContextProvider);
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(false);
     // State for managing edit mode and form values
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
@@ -68,10 +69,12 @@ const UserProfile = () => {
 
     // Handle form submit
     const handleSave = async () => {
+        setLoading(true);
         const response = await updateProfile(formData);
         if (response) {
             setEditMode(false);
             triggerPopUp(true, 'Profile Updated Successfully');
+            setLoading(false);
         }
     };
 
@@ -88,6 +91,7 @@ const UserProfile = () => {
 
     return (
         <div className="flex flex-col items-center w-full  sm:px-6 lg:px-8 sm:bg-gray-100 min-h-screen">
+             {loading && <Loader spinning={loading} />}
             <div className="bg-white sm:shadow-lg rounded-lg p-6 w-full max-w-md mt-10">
                 <h1 className="font-bold text-3xl capitalize text-center text-gray-800">My Profile</h1>
                 <div className="mt-6">
@@ -161,11 +165,24 @@ const UserProfile = () => {
                             </div>
                         ) : (
                             <div className="flex flex-wrap">
-                                {Object.entries(formData.address).map(([key, value], index, arr) => (
+                                {formData.address.street!==""?
+                                Object.entries(formData.address).map(([key, value], index, arr) => (
+                                   
                                     <p key={key} className="font-medium text-gray-700">
                                         {value}{index !== arr.length - 1 ? ',' : '.'}
                                     </p>
-                                ))}
+                                   
+                                
+                                )):<p>none</p>
+                                }
+                                {/* // {Object.entries(formData.address).map(([key, value], index, arr) => (
+                                   
+                                //     <p key={key} className="font-medium text-gray-700">
+                                //         {value}{index !== arr.length - 1 ? ',' : '.'}
+                                //     </p>
+                                   
+                                
+                                // ))} */}
                             </div>
                         )}
                     </div>
