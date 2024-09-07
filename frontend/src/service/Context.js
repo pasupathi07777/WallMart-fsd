@@ -18,7 +18,8 @@ const Context = ({ children }) => {
   // search status
   const [visibleSearch, setVisibleSearch] = useState(true)
 
-
+  // logout loading 
+  const [logOutLoading, setLogOutLoading] = useState(false)
 
   const [loginUserDetails, setLoginUserDetails] = useState({})
   const [allProducts, setAllProducts] = useState([])
@@ -100,12 +101,14 @@ const Context = ({ children }) => {
   }
   // logout
   const logOut = async (state) => {
+    setLogOutLoading(true)
     console.log(state)
     try {
       const responce = await axios.post(`${PORT}/logout`, state)
 
 
       if (responce.data.success) {
+        setLogOutLoading(false)
         let status = JSON.parse(localStorage.getItem("wallMat"));
         status.login = false
         localStorage.setItem("wallMat", JSON.stringify(status));
@@ -113,6 +116,7 @@ const Context = ({ children }) => {
       }
       return responce.data
     } catch (e) {
+      setLogOutLoading(false)
       console.log(e)
 
     }
@@ -373,20 +377,20 @@ const Context = ({ children }) => {
 
   // change admin or user 
 
- 
+
 
 
   const updateUserRole = async (updatedUser) => {
-  
+
 
     try {
       const user = await axios.patch(`${PORT}/changeusertype/${updatedUser._id}`, { updatedUser })
-    
-      
+
+
       const updatedAllUsers = allUsers.map((e) => {
-        if (e._id.toString()  === user.data.user._id.toString()) {
+        if (e._id.toString() === user.data.user._id.toString()) {
           console.log(e)
-          
+
           return { ...e, admin: user.data.user.admin };
         }
         return e;
@@ -394,7 +398,7 @@ const Context = ({ children }) => {
       setAllUsers(updatedAllUsers)
 
       return true
-    
+
 
 
     } catch (error) {
@@ -403,7 +407,7 @@ const Context = ({ children }) => {
     }
 
   }
-  
+
 
 
 
@@ -481,7 +485,9 @@ const Context = ({ children }) => {
       // update profile 
       updateProfile,
       // updateUserRole
-      updateUserRole
+      updateUserRole,
+      // logutloading 
+      logOutLoading, setLogOutLoading
 
 
 

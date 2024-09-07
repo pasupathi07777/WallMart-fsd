@@ -4,10 +4,10 @@ import './PasswordReset.css'
 import { ContextProvider } from '../../service/Context'
 import usePopUp from '../popup/PopUp';
 import Loader from '../animation/LoaderAnimation';
-
+import { Link } from 'react-router-dom';
 const PasswordReset = () => {
     const { triggerPopUp, PopUp } = usePopUp();
-    const { passwordReset,  setVisibleSearch } = useContext(ContextProvider)
+    const { passwordReset, setVisibleSearch } = useContext(ContextProvider)
 
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ const PasswordReset = () => {
     }, [])
 
     const onResetPassword = async () => {
-       
+
 
         if (gmail === "") {
             setEmailError("Required")
@@ -82,11 +82,11 @@ const PasswordReset = () => {
     }
 
     return (
-       
 
 
-        <div className="flex flex-col justify-center items-center w-full sm:px-[32px] sm:pb-[24px] min-h-screen">
-                    {loading && <Loader spinning={loading} />}
+
+        <div className="flex flex-col  items-center w-full sm:px-[32px] sm:pb-[24px] min-h-screen">
+            {loading && <Loader spinning={loading} />}
             <div className="flex flex-col gap-3 w-full max-w-[450px] px-[12px] mt-8 py-[12px] rounded-lg sm:p-[32px] bg-white sm:shadow-lg">
                 <div className="font-bold capitalize text-[24px]">Reset Password</div>
 
@@ -141,6 +141,11 @@ const PasswordReset = () => {
                 >
                     Reset
                 </button>
+                <Link to={'/login'}>
+                    <p className='capitalize font-medium text-center flex justify-center items-center text-blue-600 mt-4'>
+                        Existing User? Login
+                    </p>
+                </Link>
             </div>
         </div>
 

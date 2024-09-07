@@ -4,7 +4,9 @@ import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
 const AllOrder = () => {
   const { triggerPopUp, PopUp } = usePopUp();
-  const { allUsers, allProducts, adminEditOrderStatus,adminDeleteOrder} = useContext(ContextProvider);
+  const { allUsers, allProducts, adminEditOrderStatus, adminDeleteOrder } = useContext(ContextProvider);
+  const [loading, setLoading] = useState(false)
+  const [currentId, setCurrentId] = useState("")
 
   const [editingOrder, setEditingOrder] = useState(null);
   const [newStatus, setNewStatus] = useState('');
@@ -22,6 +24,7 @@ const AllOrder = () => {
   }
 
   const handleEditClick = (orderId, currentStatus) => {
+    setCurrentId(orderId)
     setEditingOrder(orderId);
     setNewStatus(currentStatus);
   };
@@ -31,22 +34,26 @@ const AllOrder = () => {
   };
 
   const handleSaveClick = async (orderId) => {
+    setEditingOrder(null);
+    setLoading(true)
     try {
-      const responce=await adminEditOrderStatus({ orderId, newStatus });
-      setEditingOrder(null);
-      if(responce===true){
+      const responce = await adminEditOrderStatus({ orderId, newStatus });
+
+      if (responce === true) {
         triggerPopUp(true, 'Status Updated');
+        setLoading(false)
       }
     } catch (error) {
-       // console.error('Error updating order status:', error);
-      
+      // console.error('Error updating order status:', error);
+      setLoading(false)
+
     }
   };
   const handleDeleteClick = async (orderId) => {
     try {
-      const responce=await adminDeleteOrder(orderId)
-    
-      if(responce===true){
+      const responce = await adminDeleteOrder(orderId)
+
+      if (responce === true) {
         triggerPopUp(true, 'Order Deleted');
       }
     } catch (error) {
@@ -94,43 +101,51 @@ const AllOrder = () => {
                           <option value="cancelled">Cancelled</option>
                         </select>
                       ) : (
-                        <p className="text-sm text-orange-500">Status: {order.status}</p>
+                        <p className="text-sm text-orange-500 flex gap-1">
+                          Status:
+                          {loading && currentId === order._id ? (
+                            <span className='text-green-600'>Updating...</span>
+                          ) : (
+                            <span>{order.status}</span>
+                          )}
+                        </p>
+
                       )}
 
-                      <p className="text-sm text-green-500">Ordered On: {formatDateToYYYYMMDD(order.orderDate)}</p>
-                    </div>
-                  </div>
-
-                  {/* Edit & Delete Buttons */}
-                  <div className="mt-4 flex justify-end gap-2">
-                    {editingOrder === order._id ? (
-                      <button
-                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200"
-                        onClick={() => handleSaveClick(order._id)}
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-                        onClick={() => handleEditClick(order._id, order.status)}
-                      >
-                        Edit
-                      </button>
-                    )}
-                    <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200" onClick={()=>handleDeleteClick(order._id)}>
-                      Delete
-                    </button>
+                      < p className="text-sm text-green-500">Ordered On: {formatDateToYYYYMMDD(order.orderDate)}</p>
                   </div>
                 </div>
-              ))
-            ) : (
-              <p className="text-center">No Orders</p>
-            )}
+
+                  {/* Edit & Delete Buttons */ }
+                < div className = "mt-4 flex justify-end gap-2" >
+                  { editingOrder === order._id ? (
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200"
+                    onClick={() => handleSaveClick(order._id)}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+                    onClick={() => handleEditClick(order._id, order.status)}
+                  >
+                    Edit
+                  </button>
+                )}
+            <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200" onClick={() => handleDeleteClick(order._id)}>
+              Delete
+            </button>
           </div>
         </div>
-      ))}
+      ))
+            ) : (
+      <p className="text-center">No Orders</p>
+            )}
     </div>
+        </div >
+      ))}
+    </div >
   );
 };
 

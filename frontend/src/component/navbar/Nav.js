@@ -3,14 +3,14 @@ import icons from '../../data/navIcons'
 import { useNavigate } from 'react-router-dom'
 import { ContextProvider } from '../../service/Context';
 import UserPopUp from './DropDown,';
-
+import Loader from '../animation/LoaderAnimation';
 
 
 
 const Nav = () => {
 
   const navigate = useNavigate()
-  const { loginUserDetails, login, isLoading, cart, visibleSearch, setVisibleSearch } = useContext(ContextProvider)
+  const { loginUserDetails, login, isLoading, cart, visibleSearch, logOutLoading } = useContext(ContextProvider)
 
 
 
@@ -25,8 +25,10 @@ const Nav = () => {
     }
   }
   return (
-    <nav className='flex items-center justify-between w-full  px-[16px] md:px-[32px] py-[12px] pb-[12px]  flex-wrap md:flex-nowrap gap-2 bg-[#232F3E] text-white  z-50 rounded-sm overflow-hidden  '>
-     
+    <nav className='flex items-center justify-between w-full  px-[16px] md:px-[32px] py-[12px] pb-[12px]  flex-wrap md:flex-nowrap gap-2 md:gap-5 bg-[#232F3E] text-white  z-50 rounded-sm overflow-hidden  '>
+      {logOutLoading && <Loader spinning={logOutLoading} />}
+
+
       <div className="logo font-bold text-[24px] order-1 ">
         WallMart
       </div>
@@ -43,7 +45,7 @@ const Nav = () => {
 
 
 
-      {isLoading ?
+      {/* {isLoading ?
         <p className='order-2 md:order-3 text-[10px] '>{icons.loadingIcon}</p>
 
         :
@@ -56,22 +58,43 @@ const Nav = () => {
 
 
       }
-
-
-
-
-
-   
-
-      <div className="flex items-center gap-2 order-3" onClick={() => navigate('/cart')}>
+<div className="flex items-center gap-2 order-3" onClick={() => navigate('/cart')}>
 
 
         <div className='relative'>
           {icons.cart}
-          <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>{cart.length}</span> {/* Example for cart item count */}
+          <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>{cart.length}</span>
         </div>
         <div className="hidden sm:flex items-center text-sm">
           Cart
+        </div>
+      </div> */}
+
+
+      <div className="order-2 sm:order-3 flex gap-7">
+        {isLoading ?
+          <p className='order-2 md:order-3 text-[10px] '>{icons.loadingIcon}</p>
+
+          :
+          login ?
+
+            < UserPopUp loginUserDetails={loginUserDetails} />
+
+            :
+            <button className='order-2 md:order-3 px-2 py-1  rounded' onClick={() => onLogin()}>Login</button>
+
+
+        }
+        <div className="flex items-center gap-2 order-3" onClick={() => navigate('/cart')}>
+
+
+          <div className='relative'>
+            {icons.cart}
+            <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full px-1 py-0.5'>{cart.length}</span>
+          </div>
+          <div className=" items-center text-sm">
+            Cart
+          </div>
         </div>
       </div>
 

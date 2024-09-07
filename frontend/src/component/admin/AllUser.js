@@ -144,7 +144,8 @@ const AllUser = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [role, setRole] = useState(''); // Set to empty initially
   const [dropdownVisible, setDropdownVisible] = useState(false);
-
+  const [loadind,setLoading]=useState(false)
+  const [currentId,setCurrentId]=useState("")
   function formatDateToYYYYMMDD(isoDate) {
     const date = new Date(isoDate);
     const year = date.getFullYear();
@@ -155,11 +156,14 @@ const AllUser = () => {
 
   const handleEditClick = (user) => {
     setEditingUser(user);
+    setCurrentId(user._id)
     setRole(user.admin ? 'Admin' : 'User');
     setDropdownVisible(!dropdownVisible);
   };
 
   const handleRoleChange = async (newRole) => {
+    setDropdownVisible(false);
+    setLoading(true)
     if (editingUser) {
       const updatedUser = { ...editingUser, admin: newRole === 'Admin' };
       const response = await updateUserRole(updatedUser); // Pass the updated user object
@@ -168,9 +172,10 @@ const AllUser = () => {
       if (response) {
         triggerPopUp(true, 'Role Updated');
         setEditingUser(null); // Close dropdown and clear editing user
-        setDropdownVisible(false);
+        setLoading(false)
       } else {
         triggerPopUp(false, 'Failed to update role');
+        setLoading(false)
       }
     }
   };
@@ -193,12 +198,13 @@ const AllUser = () => {
               <p className='font-semibold'>Role: <span className='font-normal'>{e.admin===true ? "Admin" : "User"}</span></p>
               <p className='font-semibold'>Joined: <span className='font-normal'>{formatDateToYYYYMMDD(e.createdAt)}</span></p>
               <div className="flex gap-2 mt-2">
+                {loadind && currentId === e._id ? <p className='text-green-600'>Updating...</p>:
                 <button 
-                  className="text-blue-500 hover:text-blue-700"
-                  onClick={() => handleEditClick(e)}
-                >
-                  {adminIcon.editIcon}
-                </button>
+                className="text-blue-500 hover:text-blue-700"
+                onClick={() => handleEditClick(e)}
+              >
+                {adminIcon.editIcon}
+              </button>}
                 <button className="text-red-500 hover:text-red-700">
                   {adminIcon.deleteIcon}
                 </button>

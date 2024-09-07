@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ContextProvider } from '../../service/Context'
 import usePopUp from '../popup/PopUp';
+import Loader from '../animation/LoaderAnimation';
 const EditAdminProduct = () => {
   const { triggerPopUp, PopUp } = usePopUp();
   const { setVisibleSearch, allProducts, updateProduct } = useContext(ContextProvider)
   const { id } = useParams()
   const navigate = useNavigate()
+  const [loading,setLoading]=useState(false)
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -59,6 +61,7 @@ const EditAdminProduct = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setLoading(true)
 
     const formData = new FormData();
     formData.append('name', name);
@@ -74,8 +77,12 @@ const EditAdminProduct = () => {
 
     const responce = await updateProduct(id, formData)
     if (responce) {
+
       navigate('/admin/viewproducts')
+      setLoading(false)
       triggerPopUp(true, 'Product Updated');
+    }else{
+      setLoading(false)
     }
 
   };
@@ -104,6 +111,7 @@ const EditAdminProduct = () => {
 
   return (
     <div className="addProduct-form flex flex-col items-center w-full sm:p-6 min-h-screen ">
+       {loading && <Loader spinning={loading} />}
       <form
         onSubmit={submitHandler}
         className="flex flex-col gap-4 w-full max-w-xl bg-white p-8 rounded-lg shadow-md  "
