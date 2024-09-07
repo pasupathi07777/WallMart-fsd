@@ -16,7 +16,7 @@ const Signup = () => {
     const [userName, setUserName] = useState("");
     const [gmail, setGmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     // Error handling
     const [userNameError, setUserNameError] = useState("");
@@ -51,7 +51,7 @@ const Signup = () => {
         if (password === "") {
             setPasswordError("Required");
         } else if (password.length < 6) {
-            setPasswordError("Password at least 6 characters long");
+            return setPasswordError("Password at least 6 characters long");
         }
 
         if (userName === "" || gmail === "" || password === "") {
