@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { ContextProvider } from '../../service/Context';
+import { useNavigate } from 'react-router-dom';
 
 const MyOrder = () => {
-    const { myOrders, allProducts, setVisibleSearch } = useContext(ContextProvider);
-
+    const { myOrders, allProducts, setVisibleSearch,login } = useContext(ContextProvider);
+    const navigate=useNavigate()
     const findProduct = (pro) => {
         return allProducts.find(allpro => allpro._id.toString() === pro.toString());
     };
@@ -18,7 +19,9 @@ const MyOrder = () => {
 
     useEffect(() => {
         setVisibleSearch(true);
-       
+        if(!login){
+            navigate('/')
+          }
         return () => setVisibleSearch(false);
     }, [setVisibleSearch]);
 

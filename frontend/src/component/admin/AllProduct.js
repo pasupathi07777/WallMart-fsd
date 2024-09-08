@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import usePopUp from '../popup/PopUp';
 const AllProduct = () => {
   const { triggerPopUp, PopUp } = usePopUp();
-  const { allProducts } = useContext(ContextProvider)
+  const { allProducts,setVisibleSearch,login } = useContext(ContextProvider)
   const [products,setProducts]=useState([])
   const navigate = useNavigate()
   const onEditProduct = (productId) => {
@@ -19,6 +19,10 @@ const AllProduct = () => {
     triggerPopUp(true, 'Delete Option Not Available');
   }
   useEffect(()=>{
+    if(!login){
+      navigate('/')
+    }
+    setVisibleSearch(true)
     setProducts(allProducts)
     
 

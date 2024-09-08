@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 
 const ConformOrder = () => {
-    const {setVisibleSearch}=useContext(ContextProvider)
+    const {setVisibleSearch,login}=useContext(ContextProvider)
     const navigate = useNavigate();
 
     const handleCheckOrders = () => {
@@ -14,7 +14,9 @@ const ConformOrder = () => {
     };
 
     useEffect(() => {
-        
+        if(!login){
+            navigate('/')
+          }
         setVisibleSearch(false);
     
         

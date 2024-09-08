@@ -144,11 +144,12 @@ import usePopUp from '../popup/PopUp';
 
 const Cart = () => {
   const { triggerPopUp, PopUp } = usePopUp();
-  const { login, cart, allProducts, addCart, removePRoductInCart, cartProduct, totalAmount, setCartProduct, setTotalAmount } = useContext(ContextProvider);
+  const { login, cart, allProducts, addCart, removePRoductInCart, cartProduct, totalAmount, setCartProduct, setTotalAmount,setVisibleSearch } = useContext(ContextProvider);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [removeItemId, setRemoveItemId] = useState("");
 
   useEffect(() => {
+    setVisibleSearch(false)
     const cartItems = cart
       .map((cartItem) => {
         const product = allProducts.find(
@@ -185,6 +186,7 @@ const Cart = () => {
   };
 
   const handleRemoveFromCart = async (productId) => {
+
     setRemoveItemId(productId); // Correct handling of product ID
     setRemoveLoading(true);
     const response = await removePRoductInCart(productId);
@@ -200,7 +202,7 @@ const Cart = () => {
   return (
     <div className="p-4 max-w-7xl mx-auto relative w-full min-h-screen">
       {!login ? (
-        <p className="text-center text-lg font-semibold text-red-500">Please log in first</p>
+        <p className="text-center text-lg font-semibold text-red-500">Please login</p>
       ) : (
         <div className="flex flex-col lg:flex-row lg:gap-6">
           <div className="flex flex-col w-full lg:w-3/4">

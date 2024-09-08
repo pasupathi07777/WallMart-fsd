@@ -6,7 +6,7 @@ import Loader from '../animation/LoaderAnimation';
 
 const UserProfile = () => {
     const { triggerPopUp } = usePopUp();
-    const { loginUserDetails, logOut, setVisibleSearch, address, updateProfile } = useContext(ContextProvider);
+    const { loginUserDetails, logOut, setVisibleSearch,login, address, updateProfile } = useContext(ContextProvider);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     // State for managing edit mode and form values
@@ -81,6 +81,9 @@ const UserProfile = () => {
 
 
     useEffect(() => {
+        if(!login){
+            navigate('/')
+          }
         setVisibleSearch(true);
         setFormData((data) => ({
             ...data,

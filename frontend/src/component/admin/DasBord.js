@@ -8,10 +8,13 @@ import loadingIcon from '../../data/isLoading';
 
 
 const Dashboard = () => {
-    const { loginUserDetails,  setVisibleSearch} = useContext(ContextProvider)
+    const { loginUserDetails,  setVisibleSearch,login} = useContext(ContextProvider)
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
     useEffect(() => {
+        if(!login){
+            navigate('/')
+          }
         setVisibleSearch(true)
         if (!loginUserDetails.admin) {
             navigate('/');

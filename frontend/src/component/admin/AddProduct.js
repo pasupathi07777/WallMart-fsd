@@ -1,7 +1,3 @@
-
-
-
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
@@ -9,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const AddProduct = () => {
   const { triggerPopUp, PopUp } = usePopUp();
   const navigate = useNavigate()
-  const { setVisibleSearch, addProduct } = useContext(ContextProvider)
+  const { setVisibleSearch, addProduct,login } = useContext(ContextProvider)
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -85,6 +81,9 @@ const AddProduct = () => {
   
 
   useEffect(() => {
+    if(!login){
+      navigate('/')
+    }
     setVisibleSearch(false)
   }, [])
 

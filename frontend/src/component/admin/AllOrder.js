@@ -1,13 +1,15 @@
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
+import { useNavigate } from 'react-router-dom';
+
 const AllOrder = () => {
   const { triggerPopUp, PopUp } = usePopUp();
-  const { allUsers, allProducts, adminEditOrderStatus, adminDeleteOrder } = useContext(ContextProvider);
+  const navigate=useNavigate()
+  const { allUsers, allProducts, adminEditOrderStatus,login, adminDeleteOrder,setVisibleSearch } = useContext(ContextProvider);
   const [loading, setLoading] = useState(false)
   const [currentId, setCurrentId] = useState("")
-
   const [editingOrder, setEditingOrder] = useState(null);
   const [newStatus, setNewStatus] = useState('');
 
@@ -44,7 +46,6 @@ const AllOrder = () => {
         setLoading(false)
       }
     } catch (error) {
-      // console.error('Error updating order status:', error);
       setLoading(false)
 
     }
@@ -57,9 +58,15 @@ const AllOrder = () => {
         triggerPopUp(true, 'Order Deleted');
       }
     } catch (error) {
-      // console.error('Error updating order status:', error);
+      console.error('Error updating order status:', error);
     }
   };
+  useEffect(()=>{
+    if(!login){
+      navigate('/')
+    }
+    setVisibleSearch(true)
+  })
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-6">

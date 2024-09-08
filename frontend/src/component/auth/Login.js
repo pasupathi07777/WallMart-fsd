@@ -200,7 +200,7 @@ const Login = () => {
 
             <div className={`login-form flex flex-col gap-4 w-full max-w-md px-4 py-6 sm:px-8 sm:py-10 bg-white rounded-lg sm:shadow-md ${loading ? 'opacity-50 pointer-events-none' : ''}`}>
                 <div className="font-bold text-2xl text-center">Login</div>
-                {logInError && <p className="text-red-500 text-center">{logInError}</p>}
+                {/* {logInError && <p className="text-red-500 text-center">{logInError}</p>} */}
 
                 <div className="flex flex-col gap-1">
                     <div className="flex justify-between items-center">

@@ -7,14 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AddressForm = () => {
     const navigate=useNavigate()
-    const { addAddress, loginUserDetails,address, setAddress,setVisibleSearch } = useContext(ContextProvider)
-    // const [address, setAddress] = useState({
-    //     street: '',
-    //     city: '',
-    //     state: '',
-    //     postalCode: '',
-    //     country: ''
-    // });
+    const { addAddress, loginUserDetails,address, setAddress,setVisibleSearch,login } = useContext(ContextProvider)
     const [errors, setErrors] = useState({
         street: '',
         city: '',
@@ -69,6 +62,9 @@ const AddressForm = () => {
     };
 
     useEffect(() => {
+        if(!login){
+            navigate('/')
+          }
         setVisibleSearch(false)
         if (loginUserDetails.address) {
             setAddress({

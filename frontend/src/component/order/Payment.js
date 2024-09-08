@@ -5,7 +5,7 @@ import { ContextProvider } from '../../service/Context';
 const Payment = () => {
     const { id } = useParams()
     console.log(id)
-    const { orderDetails,  paymentStatus, placeOrder, removeAllInCart, setVisibleSearch, setMyOrders } = useContext(ContextProvider)
+    const { orderDetails,  paymentStatus,login, placeOrder, removeAllInCart, setVisibleSearch, setMyOrders } = useContext(ContextProvider)
     const navigate = useNavigate()
 
     const [paymentDetails, setPaymentDetails] = useState({
@@ -77,6 +77,9 @@ const Payment = () => {
     };
 
     useEffect(() => {
+        if(!login){
+            navigate('/')
+          }
         setVisibleSearch(false)
         if (!paymentStatus) {
             navigate('/orderpage')

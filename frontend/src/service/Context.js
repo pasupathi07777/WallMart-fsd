@@ -80,9 +80,9 @@ const Context = ({ children }) => {
   const signUp = async (state) => {
     try {
       const responce = await axios.post(`${PORT}/signup`, state)
-      return responce
+      return responce.data
     } catch (error) {
-      return error
+      return error.response.data
     }
   }
   // password reset

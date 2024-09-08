@@ -12,7 +12,10 @@ const OrderPage = () => {
 
 
   useEffect(() => {
-
+    console.log(login)
+    if(!login){
+      navigate('/')
+    }
     setVisibleSearch(false) 
 
 

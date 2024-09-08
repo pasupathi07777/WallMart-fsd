@@ -5,7 +5,7 @@ import usePopUp from '../popup/PopUp';
 import Loader from '../animation/LoaderAnimation';
 const EditAdminProduct = () => {
   const { triggerPopUp, PopUp } = usePopUp();
-  const { setVisibleSearch, allProducts, updateProduct } = useContext(ContextProvider)
+  const { setVisibleSearch, allProducts, updateProduct,login } = useContext(ContextProvider)
   const { id } = useParams()
   const navigate = useNavigate()
   const [loading,setLoading]=useState(false)
@@ -89,13 +89,17 @@ const EditAdminProduct = () => {
 
 
   useEffect(() => {
+    if(!login){
+      navigate('/')
+    }
     setVisibleSearch(false);
 
-    // Find the product by ID from allProducts
+   
     const product = allProducts.find(pro => pro._id.toString() === id);
 
     if (product) {
-      // Populate the form fields with product data
+    
+      
       setName(product.name);
       setPrice(product.price);
       setDescription(product.description);

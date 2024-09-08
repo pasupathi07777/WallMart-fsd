@@ -59,7 +59,8 @@ const Signup = () => {
         } else {
             setLoading(true);
             const res = await signUp({ userName, gmail, password });
-            if (res.data.success) {
+            console.log(res)
+            if (res.success) {
                 triggerPopUp(true, 'Registration Successful');
                 navigate('/login');
                 setGmail("");
@@ -67,7 +68,7 @@ const Signup = () => {
                 setPassword("");
                 setLoading(false);
             } else {
-                setEmailError(res.response.data.message);
+                setEmailError(res.message);
                 setLoading(false);
             }
         }

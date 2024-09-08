@@ -8,12 +8,6 @@
   
  
   font-family: "Poppins", sans-serif;
-  
-  
-  
- 
-  
- 
 }
 .ant-spin-dot i {
   background-color: white !important; /* Set the loader color to white */
@@ -55,4 +49,7 @@
 } 
 
 
-
+input:focus{
+  /* border: none; */
+ outline: none;
+}
