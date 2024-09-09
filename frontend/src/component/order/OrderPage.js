@@ -6,17 +6,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 const OrderPage = () => {
   const { id } = useParams()
   console.log(id)
-  const { login, cart, allProducts, cartProduct, totalAmount, setCartProduct, loginUserDetails, setTotalAmount, address,  setOrderDetails, setPaymentStatus, setVisibleSearch } = useContext(ContextProvider)
+  const { login, cart, allProducts, cartProduct, totalAmount, setCartProduct, loginUserDetails, setTotalAmount, address, setOrderDetails, setPaymentStatus, setVisibleSearch } = useContext(ContextProvider)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
 
   useEffect(() => {
     console.log(login)
-    if(!login){
+    if (!login) {
       navigate('/')
     }
-    setVisibleSearch(false) 
+    setVisibleSearch(false)
 
 
 
@@ -46,29 +46,29 @@ const OrderPage = () => {
 
       setTotalAmount(newTotalAmount);
 
-    } else if(id!=="items") {
-     
+    } else if (id !== "items") {
+
       if (allProducts.length) {
-        
+
         const cartPro = allProducts.filter((product) => product._id.toString() === id.toString());
-      
-       
+
+
         setCartProduct(cartPro);
-      
-     
+
+
         if (cartPro.length > 0) {
-          const totalPrice = cartPro[0].price; 
-          setTotalAmount(totalPrice); 
+          const totalPrice = cartPro[0].price;
+          setTotalAmount(totalPrice);
         } else {
           setTotalAmount(0);
         }
-      
-        
-      }else if(id===""){
+
+
+      } else if (id === "") {
         navigate('/')
       }
-      
-      
+
+
 
 
 
@@ -77,7 +77,6 @@ const OrderPage = () => {
     }
 
 
-   
 
 
 
@@ -86,11 +85,15 @@ const OrderPage = () => {
 
 
 
-  }, [cart, allProducts, setCartProduct, setTotalAmount]);
+
+  }, [cart, allProducts, setCartProduct, setTotalAmount, address, login]);
 
 
 
   const onSubmit = () => {
+    if (!cart.length) {
+      return
+    }
     navigate(`/payment/${id === "items" ? "xxx" : "x"}`)
 
     setOrderDetails(cartProduct.map(pro => pro._id))
@@ -106,7 +109,7 @@ const OrderPage = () => {
 
 
   return (
-   
+
 
     <div className="w-full min-h-screen">
       {
@@ -122,9 +125,17 @@ const OrderPage = () => {
                       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
                         <h2 className="text-lg font-semibold mb-2">{`Deliver to: ${loginUserDetails.userName}`}</h2>
                         <p className="text-gray-600">{`${address.street},${address.city},${address.state},${address.postalCode},${address.country}`}</p>
-                        <button className="text-blue-500 hover:underline mt-2" onClick={() => navigate('/addaddress')}>Edit</button>
+                        <button className="text-blue-500 hover:underline mt-2" onClick={() => navigate(`/address/${id}`)}>Edit</button>
                       </div> :
-                      <button onClick={() => navigate('/addaddress')}>Add Address</button>
+                      // <button className='' onClick={() => navigate(`/address/${id}`)}>Add Address</button>
+
+                      <button
+                        className='bg-blue-500 mb-2    text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300'
+                        onClick={() => navigate(`/address/${id}`)}
+                      >
+                        Add Address
+                      </button>
+
                   }
                   {cartProduct.length ? (
                     cartProduct.map((product) => (
@@ -179,9 +190,9 @@ const OrderPage = () => {
                       <div className="bg-white p-4 rounded-lg shadow-md mb-4">
                         <h2 className="text-lg font-semibold mb-2">{`Deliver to: ${loginUserDetails.userName}`}</h2>
                         <p className="text-gray-600">{`${address.street},${address.city},${address.state},${address.postalCode},${address.country}`}</p>
-                        <button className="text-blue-500 hover:underline mt-2" onClick={() => navigate('/addaddress')}>Edit</button>
+                        <button className="text-blue-500  hover:underline mt-2" onClick={() => navigate(`/address/${id}`)}>Edit</button>
                       </div> :
-                      <button onClick={() => navigate('/addaddress')}>Add Address</button>
+                      <button onClick={() => navigate(`/address/${id}`)}>Add Address</button>
                   }
                   {cartProduct.length ? (
                     cartProduct.map((product) => (

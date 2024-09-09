@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
@@ -12,6 +11,7 @@ const AllOrder = () => {
   const [currentId, setCurrentId] = useState("")
   const [editingOrder, setEditingOrder] = useState(null);
   const [newStatus, setNewStatus] = useState('');
+  const [deleteLoading,setLoadingDelete]=useState(false)
 
   const findProduct = (pro) => {
     return allProducts.find(allpro => allpro._id.toString() === pro.toString());
@@ -51,14 +51,17 @@ const AllOrder = () => {
     }
   };
   const handleDeleteClick = async (orderId) => {
+    setLoadingDelete(true)
     try {
       const responce = await adminDeleteOrder(orderId)
 
       if (responce === true) {
         triggerPopUp(true, 'Order Deleted');
+        setLoadingDelete(false)
       }
     } catch (error) {
       console.error('Error updating order status:', error);
+      setLoadingDelete(false)
     }
   };
   useEffect(()=>{

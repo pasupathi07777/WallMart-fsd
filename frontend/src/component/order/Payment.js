@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
-
+import Loader from '../animation/LoaderAnimation';
 const Payment = () => {
     const { id } = useParams()
     console.log(id)
-    const { orderDetails,  paymentStatus,login, placeOrder, removeAllInCart, setVisibleSearch, setMyOrders } = useContext(ContextProvider)
+    const { orderDetails, paymentStatus, login, placeOrder, removeAllInCart, setVisibleSearch, setMyOrders } = useContext(ContextProvider)
     const navigate = useNavigate()
-
+    const [loading, setLoading] = useState(false);
     const [paymentDetails, setPaymentDetails] = useState({
         cardNumber: '',
         cardName: '',
@@ -52,13 +52,15 @@ const Payment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate()) {
+            setLoading(true)
 
 
             console.log(orderDetails);
             const responce = await placeOrder(orderDetails)
             if (responce.success) {
-                
+
                 setMyOrders(responce.order)
+               setLoading(false)
 
                 if (id === "xxx") {
                     const remove = await removeAllInCart()
@@ -66,10 +68,12 @@ const Payment = () => {
                         console.log(remove.cart)
                         navigate("/success")
                     }
-                }else{
+                } else {
                     navigate("/success")
                 }
 
+            }else{
+                setLoading(false)
             }
 
 
@@ -77,18 +81,19 @@ const Payment = () => {
     };
 
     useEffect(() => {
-        if(!login){
+        if (!login) {
             navigate('/')
-          }
+        }
         setVisibleSearch(false)
         if (!paymentStatus) {
             navigate('/orderpage')
         }
-      
+
     }, [])
 
     return (
         <div className="flex flex-col items-center w-full sm:px-8 py-8 min-h-screen">
+                 {loading && <Loader spinning={loading} />}
             <div className="payment-form flex flex-col gap-4 w-full max-w-md px-4 py-6 sm:px-8 sm:py-10 bg-white rounded-lg sm:shadow-md">
                 <div className="font-bold text-2xl text-center mb-4">Payment Details</div>
 

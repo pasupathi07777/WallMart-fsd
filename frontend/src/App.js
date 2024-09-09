@@ -58,7 +58,7 @@ const App = () => {
 
           {/* cart */}
           <Route path='/cart' element={<Cart />} />
-          <Route path='/addaddress' element={<AddressForm />} />
+          <Route path='/address/:id' element={<AddressForm />} />
 
 
           {/* search */}

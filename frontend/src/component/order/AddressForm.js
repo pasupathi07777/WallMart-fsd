@@ -2,11 +2,13 @@
 
 import React, { useState, useContext, useEffect } from 'react';
 import { ContextProvider } from '../../service/Context';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import Loader from '../animation/LoaderAnimation';
 
 const AddressForm = () => {
+    const { id } = useParams()
     const navigate=useNavigate()
+    const [loading, setLoading] = useState(false);
     const { addAddress, loginUserDetails,address, setAddress,setVisibleSearch,login } = useContext(ContextProvider)
     const [errors, setErrors] = useState({
         street: '',
@@ -45,6 +47,7 @@ const AddressForm = () => {
     };
 
     const handleSubmit = async(e) => {
+        setLoading(true)
         e.preventDefault();
         if (validate()) {
             console.log(address);
@@ -53,9 +56,13 @@ const AddressForm = () => {
             const responce=await addAddress(address)
             if(responce.success){
                 setAddress(responce.user.address)
-                navigate('/orderpage/:id')
+               
+                navigate(`/orderpage/${id}`)
+               setLoading(false)
                 
 
+            }else{
+                setLoading(false)
             }
           
         }
@@ -84,6 +91,7 @@ const AddressForm = () => {
 
     return (
         <div className="flex flex-col items-center w-full sm:px-8 py-8 min-h-screen">
+             {loading && <Loader spinning={loading} />}
             <div className="login-form flex flex-col gap-4 w-full max-w-md px-4 py-6 sm:px-8 sm:py-10 bg-white rounded-lg sm:shadow-md">
                 <div className="font-bold text-2xl text-center">Address Form</div>
 

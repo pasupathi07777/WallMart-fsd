@@ -6,19 +6,24 @@ import { useNavigate } from 'react-router-dom';
 
 const AllUser = () => {
   const { triggerPopUp } = usePopUp();
-  const navigate=useNavigate()
-  const { allUsers, updateUserRole,setVisibleSearch,login } = useContext(ContextProvider); // Ensure updateUserRole is available in context
+  const navigate = useNavigate()
+  const { allUsers, updateUserRole, setVisibleSearch, login } = useContext(ContextProvider);
+  // is available in context
   const [editingUser, setEditingUser] = useState(null);
   const [role, setRole] = useState(''); // Set to empty initially
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [loadind,setLoading]=useState(false)
-  const [currentId,setCurrentId]=useState("")
+  const [loadind, setLoading] = useState(false)
+  const [currentId, setCurrentId] = useState("")
   function formatDateToYYYYMMDD(isoDate) {
     const date = new Date(isoDate);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  const onDeleteUser = () => {
+    triggerPopUp(true, 'Delete Option Not Available');
   }
 
   const handleEditClick = (user) => {
@@ -46,15 +51,16 @@ const AllUser = () => {
       }
     }
   };
+ 
 
-  useEffect(()=>{
-    if(!login){
+  useEffect(() => {
+    if (!login) {
       navigate('/')
     }
     setVisibleSearch(true)
     console.log("up")
 
-  },[allUsers])
+  }, [allUsers])
 
   return (
     <div className='p-[12px] flex flex-col gap-2 w-full min-h-screen'>
@@ -66,29 +72,29 @@ const AllUser = () => {
               <p className='font-semibold'>ID: <span className='font-normal'>{e._id}</span></p>
               <p className='font-semibold'>Name: <span className='font-normal'>{e.userName}</span></p>
               <p className='font-semibold'>Email: <span className='font-normal'>{e.gmail}</span></p>
-              <p className='font-semibold'>Role: <span className='font-normal'>{e.admin===true ? "Admin" : "User"}</span></p>
+              <p className='font-semibold'>Role: <span className='font-normal'>{e.admin === true ? "Admin" : "User"}</span></p>
               <p className='font-semibold'>Joined: <span className='font-normal'>{formatDateToYYYYMMDD(e.createdAt)}</span></p>
               <div className="flex gap-2 mt-2">
-                {loadind && currentId === e._id ? <p className='text-green-600'>Updating...</p>:
-                <button 
-                className="text-blue-500 hover:text-blue-700"
-                onClick={() => handleEditClick(e)}
-              >
-                {adminIcon.editIcon}
-              </button>}
-                <button className="text-red-500 hover:text-red-700">
+                {loadind && currentId === e._id ? <p className='text-green-600'>Updating...</p> :
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    onClick={() => handleEditClick(e)}
+                  >
+                    {adminIcon.editIcon}
+                  </button>}
+                <button className="text-red-500 hover:text-red-700" onClick={() => onDeleteUser()}>
                   {adminIcon.deleteIcon}
                 </button>
               </div>
               {editingUser && editingUser._id === e._id && dropdownVisible && (
                 <div className="absolute bg-white shadow-lg p-2 rounded mt-2 right-0">
-                  <button 
+                  <button
                     className={`block w-full text-left p-2 hover:bg-gray-300 rounded ${role === 'Admin' ? 'bg-gray-200' : ''}`}
                     onClick={() => handleRoleChange('Admin')}
                   >
                     Admin
                   </button>
-                  <button 
+                  <button
                     className={`block w-full text-left p-2 hover:bg-gray-300 rounded ${role === 'User' ? 'bg-gray-200' : ''}`}
                     onClick={() => handleRoleChange('User')}
                   >
