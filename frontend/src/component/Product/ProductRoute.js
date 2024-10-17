@@ -4,6 +4,7 @@ import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 import usePopUp from '../popup/PopUp';
 import CartLoader from '../animation/CartLoder';
+import ScrollToTop from '../ScrollToTop';
 
 const ProductRoute = () => {
   const { triggerPopUp, PopUp } = usePopUp();
@@ -43,6 +44,7 @@ const ProductRoute = () => {
 
   return (
     <div className="p-4 sm:p-8 min-h-screen">
+      <ScrollToTop/>
       {allProducts.map((product, productIndex) =>
         product.category.toLowerCase() === id.toLowerCase() ? (
           <div

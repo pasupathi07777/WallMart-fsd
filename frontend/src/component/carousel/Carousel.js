@@ -20,7 +20,7 @@ const ProductCarousel = () => (
             {caruselImages.map((e, i) => (
                 <div key={i} className='h-full w-full flex justify-center items-center z-10' >
                     <Link to={`product/${e.path}`}>
-                        <img className='w-full  h-[170px] sm:h-[230px] z-10 ' src={e.image} alt="" srcSet="" />
+                        <img className='w-full  h-[170px]  sm:h-[230px] z-10 ' src={e.image} alt="" srcSet="" />
                     </Link>
 
                 </div>

@@ -3,6 +3,7 @@ import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 import { useNavigate } from 'react-router-dom';
 import icons from '../../data/navIcons';
+import ScrollToTop from '../ScrollToTop';
 
 const Products = () => {
     const navigate = useNavigate();
@@ -44,6 +45,7 @@ const Products = () => {
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3  min-h-screen'>
+            <ScrollToTop/>
             {categories.map((category, index) => {
                 const filteredProducts = allProducts.filter(
                     product => product.category.toLowerCase() === category.toLowerCase()

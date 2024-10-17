@@ -4,6 +4,7 @@ import { ContextProvider } from '../../service/Context';
 import productIcons from '../../data/productIcon';
 import usePopUp from '../popup/PopUp';
 import CartLoader from '../animation/CartLoder';
+import ScrollToTop from '../ScrollToTop';
 
 const Pro = () => {
     const navigate = useNavigate();
@@ -39,7 +40,8 @@ const Pro = () => {
       }
 
     return (
-        <div className="p-4 sm:p-8 w-full min-h-screen">
+        <div className="p-4 sm:p-8 w-full min-h-screen ">
+            <ScrollToTop/>
             {product ? (
                 <div className="flex flex-col items-center gap-4 w-full max-w-4xl mx-auto">
                     {/* Product Image */}
