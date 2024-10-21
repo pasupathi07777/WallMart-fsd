@@ -72,7 +72,7 @@ module.exports = updateProduct;
 
 const getProduct = async (req, res) => {
     try {
-        const product = await addProductModel.find(); // Fetch images from the database
+        const product = await addProductModel.find();
         const allProducts = product.map(img => ({
             ...img._doc,
             image: {

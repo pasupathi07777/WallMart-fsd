@@ -130,7 +130,7 @@ const Context = ({ children }) => {
       setAllProducts(product.data.allProducts)
 
     } catch (error) {
-      console.log(error)
+      console.log(error.message)
 
     }
 
