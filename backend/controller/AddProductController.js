@@ -71,6 +71,7 @@ module.exports = updateProduct;
 
 
 const getProduct = async (req, res) => {
+   
     try {
         const product = await addProductModel.find();
         const allProducts = product.map(img => ({
@@ -80,11 +81,13 @@ const getProduct = async (req, res) => {
                 data: img.image.data.toString('base64') // Convert Buffer to Base64 string
             }
         }));
-        res.json({ success: true, allProducts });
+        res.json({ success: true, product });
     } catch (error) {
-        res.status(500).send({ success: false, message: 'Error fetching images' });
+        res.status(500).send({ success: false, message: 'Error fetching imagesss' });
     }
 };
+
+
 
 
 
