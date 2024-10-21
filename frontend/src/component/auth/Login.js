@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ContextProvider } from '../../service/Context';
 import usePopUp from '../popup/PopUp';
 import Loader from '../animation/LoaderAnimation';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; // Importing eye icons
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'; 
 
 const Login = () => {
     const { triggerPopUp } = usePopUp();
