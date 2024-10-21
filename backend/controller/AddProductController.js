@@ -81,7 +81,7 @@ const getProduct = async (req, res) => {
                 data: img.image.data.toString('base64') // Convert Buffer to Base64 string
             }
         }));
-        res.json({ success: true, product });
+        res.json({ success: true, allProducts });
     } catch (error) {
         res.status(500).send({ success: false, message: 'Error fetching imagesss' });
     }

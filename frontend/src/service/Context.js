@@ -128,6 +128,7 @@ const Context = ({ children }) => {
     try {
       const product = await axios.get(`${PORT}/getproduct`)
       setAllProducts(product.data.allProducts)
+      // setAllProducts(product.data.product)
 
     } catch (error) {
       console.log(error.message)
