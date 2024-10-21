@@ -30,7 +30,7 @@ const Nav = () => {
 
 
       <div className="logo font-bold text-[24px] order-1 ">
-        WalMart
+        WallMart
       </div>
       {
         visibleSearch &&
